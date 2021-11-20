@@ -14,5 +14,6 @@ import java.math.BigDecimal;
 public class ReservationDetailReadDTO extends ReservationDetailWriteDTO {
     private Long id;
     private String customerFullName;
-    private BigDecimal bookAmount;
+    private BigDecimal customerLegalId;
+    private BigDecimal customerPhone;
 }

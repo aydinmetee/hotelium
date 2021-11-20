@@ -2,6 +2,7 @@ package com.hotelium.mainservice.service.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
 import com.hotelium.mainservice.dto.AccountTransactionSearchCriteriaDTO;
+import com.hotelium.mainservice.dto.AccountTransactionSourceUpdateDTO;
 import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.AccountTransactionRepository;
@@ -49,6 +50,13 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     @Override
     public Page<AccountTransaction> search(AccountTransactionSearchCriteriaDTO filter, Pageable pageable) {
         return accountTransactionRepository.findAll(filter.accountTransactionSearchCriteriaFieldMapper(filter), pageable);
+    }
+
+    @Override
+    public AccountTransaction updateTransactionSource(AccountTransactionSourceUpdateDTO updateDTO) {
+        final var acc = getById(updateDTO.getId());
+        acc.setSource(updateDTO.getSource());
+        return accountTransactionRepository.save(acc);
     }
 
 

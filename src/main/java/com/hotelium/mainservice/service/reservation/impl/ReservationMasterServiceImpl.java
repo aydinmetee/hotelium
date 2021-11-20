@@ -1,20 +1,25 @@
 package com.hotelium.mainservice.service.reservation.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
+import com.hotelium.mainservice.domain.Room;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
+import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterWriteDTO;
 import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.reservation.ReservationMasterRepository;
 import com.hotelium.mainservice.service.AccountTransactionService;
 import com.hotelium.mainservice.service.RoomService;
+import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
 import com.hotelium.mainservice.util.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +28,15 @@ import java.util.Objects;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * date 23.10.2021
  */
 @Service
 @RequiredArgsConstructor
 public class ReservationMasterServiceImpl implements ReservationMasterService {
+    @Lazy
     private final ReservationMasterRepository reservationMasterRepository;
+    @Lazy
+    private final ReservationDetailService reservationDetailService;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
     private final AccountTransactionService accountTransactionService;
@@ -40,6 +48,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         if (Objects.isNull(room)) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
         }
+        checkRoomStatus(room);
         roomService.markAsReserved(room.getId());
         final var master = modelMapper.map(reservationMasterWriteDTO, ReservationMaster.class);
         master.setStatus(ReservationMaster.ReservationStatus.NEW);
@@ -72,6 +81,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     public ReservationMaster markAsBooking(ReservationBookingDTO reservationBookingDTO) {
         final var reservationMaster = getById(reservationBookingDTO.getMasterId());
         reservationMaster.setCheckInDate(new Date());
+        checkHasMasterGotDetail(reservationMaster);
         final var accountTransaction = new AccountTransactionWriteDTO();
         accountTransaction.setAmount(reservationBookingDTO.getAmount());
         accountTransaction.setSource(reservationBookingDTO.getSource());
@@ -92,5 +102,19 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         return reservationMasterRepository.save(reservationMaster);
     }
 
+    private void checkRoomStatus(Room room){
+        if(!Room.RoomStatus.CLEAN.equals(room.getStatus())){
+            throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomStatus.exception"));
+        }
+    }
+
+    private void checkHasMasterGotDetail(ReservationMaster reservationMaster){
+        final var detailFilter = new ReservationDetailSearchCriteriaDTO();
+        detailFilter.setReservationMasterId(reservationMaster.getId());
+        final var details = reservationDetailService.search(detailFilter, PageRequest.of(0,1));
+        if(!details.hasContent()){
+            throw new ServiceExecutionException(messageUtil.get("reservationMaster.detailNotFound.exception"));
+        }
+    }
 
 }

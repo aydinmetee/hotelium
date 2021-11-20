@@ -9,7 +9,7 @@ import com.hotelium.mainservice.service.customer.CustomerService;
 import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
 import com.hotelium.mainservice.util.MessageUtil;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +20,22 @@ import org.springframework.stereotype.Service;
  * @since 23.10.2021
  */
 @Service
-@RequiredArgsConstructor
 public class ReservationDetailServiceImpl implements ReservationDetailService {
-    private final ReservationDetailRepository reservationDetailRepository;
-    @Lazy
-    private final ReservationMasterService reservationMasterService;
-    @Lazy
-    private final CustomerService customerService;
-    private final MessageUtil messageUtil;
+    private ReservationDetailRepository reservationDetailRepository;
+    private ReservationMasterService reservationMasterService;
+    private CustomerService customerService;
+    private MessageUtil messageUtil;
+
+    @Autowired
+    public ReservationDetailServiceImpl(ReservationDetailRepository reservationDetailRepository,
+                                             @Lazy ReservationMasterService reservationMasterService,
+                                             @Lazy CustomerService customerService, MessageUtil messageUtil) {
+        this.reservationDetailRepository = reservationDetailRepository;
+        this.reservationMasterService = reservationMasterService;
+        this.customerService = customerService;
+        this.messageUtil = messageUtil;
+    }
+
 
     @Override
     public ReservationDetail create(ReservationDetailWriteDTO reservationDetailWriteDTO) {

@@ -59,6 +59,8 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
         final var readDTO = modelMapper.map(reservationMaster, ReservationMasterReadDTO.class);
         if (Objects.nonNull(reservationMaster.getAccountTransaction())) {
             readDTO.setAccountTransactionId(reservationMaster.getAccountTransaction().getId());
+            readDTO.setBookAmount(reservationMaster.getAccountTransaction().getAmount());
+            readDTO.setSource(reservationMaster.getAccountTransaction().getSource());
         }
         return readDTO;
     }

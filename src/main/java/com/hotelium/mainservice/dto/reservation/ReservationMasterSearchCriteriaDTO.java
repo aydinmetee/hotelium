@@ -23,6 +23,8 @@ public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO
         searchCriteriaOptions.add(new SearchCriteria("checkInDate", filter.getCheckInDate(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("checkOutDate", filter.getCheckOutDate(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
+        searchCriteriaOptions.add(new SearchCriteria("accountTransaction/amount", filter.getBookAmount(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("accountTransaction/source", filter.getSource(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

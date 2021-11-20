@@ -47,6 +47,8 @@ public class ReservationDetailServiceViewImpl implements ReservationDetailServic
         readDto.setReservationMasterId(reservationDetail.getReservationMaster().getId());
         readDto.setCustomerId(reservationDetail.getCustomer().getId());
         readDto.setCustomerFullName(reservationDetail.getCustomer().getName() + " " + reservationDetail.getCustomer().getLastname());
+        readDto.setCustomerLegalId(reservationDetail.getCustomer().getLegalId());
+        readDto.setCustomerPhone(reservationDetail.getCustomer().getPhone());
         return readDto;
     }
 }
