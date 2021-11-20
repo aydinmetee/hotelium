@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +47,8 @@ public class RoomController {
     @PostMapping("/search")
     @ApiOperation(value = "Create Room", response = Page.class)
     public ResponseEntity<Page<RoomReadDTO>> search(@RequestBody() RoomSearchCriteriaDTO filter,
-                                                    @RequestParam(defaultValue = "0") int page,
-                                                    @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(roomServiceView.search(filter, PageRequest.of(page, size)));
+                                                    Pageable pageable) {
+        return ResponseEntity.ok(roomServiceView.search(filter, pageable));
     }
 
     @GetMapping("/{roomId}/mark-as-clean")

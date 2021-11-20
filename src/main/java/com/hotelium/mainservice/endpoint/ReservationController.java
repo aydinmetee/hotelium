@@ -12,6 +12,7 @@ import com.hotelium.mainservice.serviceview.reservation.ReservationMasterService
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,9 +51,8 @@ public class ReservationController {
 
     @PostMapping("/search")
     public ResponseEntity<Page<ReservationMasterReadDTO>> search(@RequestBody() ReservationMasterSearchCriteriaDTO filter,
-                                                                 @RequestParam(defaultValue = "0") int page,
-                                                                 @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(reservationMasterServiceView.search(filter, PageRequest.of(page, size)));
+                                                                 Pageable pageable) {
+        return ResponseEntity.ok(reservationMasterServiceView.search(filter, pageable));
     }
 
     @PostMapping("/{masterId}/mark-as-booking")
@@ -86,8 +86,7 @@ public class ReservationController {
 
     @PostMapping("/{masterId}/details/search")
     public ResponseEntity<Page<ReservationDetailReadDTO>> searchDetails(@RequestBody() ReservationDetailSearchCriteriaDTO filter,
-                                                                        @RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(reservationDetailServiceView.search(filter, PageRequest.of(page, size)));
+                                                                        Pageable pageable) {
+        return ResponseEntity.ok(reservationDetailServiceView.search(filter, pageable));
     }
 }
