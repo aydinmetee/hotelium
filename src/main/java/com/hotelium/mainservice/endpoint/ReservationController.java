@@ -67,24 +67,24 @@ public class ReservationController {
         return ResponseEntity.ok(reservationMasterServiceView.markAsComplete(masterId));
     }
 
-    @PostMapping("/{masterId}/detail")
+    @PostMapping("/{masterId}/details")
     public ResponseEntity<ReservationDetailReadDTO> createDetail(@RequestBody ReservationDetailWriteDTO reservationDetailWriteDTO,
                                                                  @PathVariable("masterId") Long masterId) {
         reservationDetailWriteDTO.setReservationMasterId(masterId);
         return ResponseEntity.ok(reservationDetailServiceView.create(reservationDetailWriteDTO));
     }
 
-    @GetMapping("/{masterId}/detail/{detailId}")
+    @GetMapping("/{masterId}/details/{detailId}")
     public ResponseEntity<ReservationDetailReadDTO> getByIdDetail(@PathVariable("detailId") Long detailId) {
         return ResponseEntity.ok(reservationDetailServiceView.getById(detailId));
     }
 
-    @DeleteMapping("/{masterId}/detail/{detailId}")
+    @DeleteMapping("/{masterId}/details/{detailId}")
     public ResponseEntity<ReservationDetailReadDTO> deleteDetail(@PathVariable("detailId") Long detailId) {
         return ResponseEntity.ok(reservationDetailServiceView.delete(detailId));
     }
 
-    @PostMapping("/details/search")
+    @PostMapping("/{masterId}/details/search")
     public ResponseEntity<Page<ReservationDetailReadDTO>> searchDetails(@RequestBody() ReservationDetailSearchCriteriaDTO filter,
                                                                         @RequestParam(defaultValue = "0") int page,
                                                                         @RequestParam(defaultValue = "10") int size) {
