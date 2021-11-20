@@ -2,6 +2,7 @@ package com.hotelium.mainservice.endpoint;
 
 import com.hotelium.mainservice.dto.auth.AuthUserLoginDTO;
 import com.hotelium.mainservice.dto.auth.AuthUserRegisterDTO;
+import com.hotelium.mainservice.dto.auth.TokenResponseDTO;
 import com.hotelium.mainservice.serviceview.auth.AuthUserServiceView;
 import com.hotelium.mainservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,16 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public String creteToken(@RequestBody AuthUserLoginDTO authUserLoginDTO) {
+    public ResponseEntity<TokenResponseDTO> creteToken(@RequestBody AuthUserLoginDTO authUserLoginDTO) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authUserLoginDTO.getUsername(),
                 authUserLoginDTO.getPassword()));
 
         final var authUser = authUserServiceView.loadUserByUsername(authUserLoginDTO.getUsername());
 
-        return jwtUtil.generateToken(authUser);
+        final var response = new TokenResponseDTO();
+        response.setAccessToken(jwtUtil.generateToken(authUser));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
