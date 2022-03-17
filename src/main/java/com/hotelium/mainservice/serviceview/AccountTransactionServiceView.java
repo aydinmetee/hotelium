@@ -13,7 +13,7 @@ import java.text.ParseException;
 public interface AccountTransactionServiceView {
     AccountTransactionReadDTO createExpense(AccountTransactionWriteDTO accountTransactionWriteDTO);
 
-    AccountTransactionReadDTO delete(Long id);
+    AccountTransactionReadDTO delete(String id);
 
     Page<AccountTransactionReadDTO> search(AccountTransactionSearchCriteriaDTO filter, Pageable pageable);
 

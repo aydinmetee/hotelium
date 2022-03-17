@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class KeyValue implements Serializable {
     private String key;
-    private Long value;
+    private String value;
 }

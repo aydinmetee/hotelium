@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.endpoint;
 
+import com.hotelium.mainservice.annotation.NoSession;
 import com.hotelium.mainservice.dto.auth.AuthUserLoginDTO;
 import com.hotelium.mainservice.dto.auth.AuthUserRegisterDTO;
 import com.hotelium.mainservice.dto.auth.TokenResponseDTO;
@@ -31,19 +32,21 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @NoSession
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> creteToken(@RequestBody AuthUserLoginDTO authUserLoginDTO) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authUserLoginDTO.getUsername(),
                 authUserLoginDTO.getPassword()));
 
-        final var authUser = authUserServiceView.loadUserByUsername(authUserLoginDTO.getUsername());
+        final var userDetails = authUserServiceView.loadUserByUsername(authUserLoginDTO.getUsername());
+        final var authUser = authUserServiceView.getSessionInfo(userDetails.getUsername());
 
-        final var response = new TokenResponseDTO();
-        response.setAccessToken(jwtUtil.generateToken(authUser));
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(jwtUtil.generateToken(userDetails.getUsername(), authUser.getId(), authUser.getOrgId()));
     }
 
+    @NoSession
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@Valid @RequestBody AuthUserRegisterDTO authUserRegisterDTO) {
         return ResponseEntity.ok(authUserServiceView.save(authUserRegisterDTO));

@@ -40,12 +40,12 @@ public class ReservationController {
     }
 
     @GetMapping("/{masterId}")
-    public ResponseEntity<ReservationMasterReadDTO> getById(@PathVariable("masterId") Long masterId) {
+    public ResponseEntity<ReservationMasterReadDTO> getById(@PathVariable("masterId") String masterId) {
         return ResponseEntity.ok(reservationMasterServiceView.getById(masterId));
     }
 
     @DeleteMapping("/{masterId}")
-    public ResponseEntity<ReservationMasterReadDTO> delete(@PathVariable("masterId") Long masterId) {
+    public ResponseEntity<ReservationMasterReadDTO> delete(@PathVariable("masterId") String masterId) {
         return ResponseEntity.ok(reservationMasterServiceView.delete(masterId));
     }
 
@@ -57,30 +57,30 @@ public class ReservationController {
 
     @PostMapping("/{masterId}/mark-as-booking")
     public ResponseEntity<ReservationMasterReadDTO> markAsBooking(@RequestBody ReservationBookingDTO reservationBookingDTO,
-                                                                  @PathVariable("masterId") Long masterId) {
+                                                                  @PathVariable("masterId") String masterId) {
         reservationBookingDTO.setMasterId(masterId);
         return ResponseEntity.ok(reservationMasterServiceView.markAsBooking(reservationBookingDTO));
     }
 
     @GetMapping("/{masterId}/mark-as-completed")
-    public ResponseEntity<ReservationMasterReadDTO> markAsCompleted(@PathVariable("masterId") Long masterId) {
+    public ResponseEntity<ReservationMasterReadDTO> markAsCompleted(@PathVariable("masterId") String masterId) {
         return ResponseEntity.ok(reservationMasterServiceView.markAsComplete(masterId));
     }
 
     @PostMapping("/{masterId}/details")
     public ResponseEntity<ReservationDetailReadDTO> createDetail(@RequestBody ReservationDetailWriteDTO reservationDetailWriteDTO,
-                                                                 @PathVariable("masterId") Long masterId) {
+                                                                 @PathVariable("masterId") String masterId) {
         reservationDetailWriteDTO.setReservationMasterId(masterId);
         return ResponseEntity.ok(reservationDetailServiceView.create(reservationDetailWriteDTO));
     }
 
     @GetMapping("/{masterId}/details/{detailId}")
-    public ResponseEntity<ReservationDetailReadDTO> getByIdDetail(@PathVariable("detailId") Long detailId) {
+    public ResponseEntity<ReservationDetailReadDTO> getByIdDetail(@PathVariable("detailId") String detailId) {
         return ResponseEntity.ok(reservationDetailServiceView.getById(detailId));
     }
 
     @DeleteMapping("/{masterId}/details/{detailId}")
-    public ResponseEntity<ReservationDetailReadDTO> deleteDetail(@PathVariable("detailId") Long detailId) {
+    public ResponseEntity<ReservationDetailReadDTO> deleteDetail(@PathVariable("detailId") String detailId) {
         return ResponseEntity.ok(reservationDetailServiceView.delete(detailId));
     }
 

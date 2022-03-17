@@ -13,6 +13,8 @@ public interface AuthUserService {
 
     AuthUser getSessionInfo();
 
+    AuthUser getSessionInfo(String username);
+
     AuthUser save(AuthUserRegisterDTO authUserRegisterDTO);
 
 }

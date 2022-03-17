@@ -10,5 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CompanyReadDTO extends CompanyWriteDTO {
-    private Long id;
+    private String id;
 }

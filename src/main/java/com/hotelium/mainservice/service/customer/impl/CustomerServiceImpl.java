@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getById(Long id) {
+    public Customer getById(String id) {
         final var customer = customerRepository.findById(id);
         if (customer.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerNotFound.exception"));
@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer delete(Long id) {
+    public Customer delete(String id) {
         final var deletedCustomer = getById(id);
         customerRepository.deleteById(id);
         return deletedCustomer;
@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer assignCompany(Long id, Long companyId) {
+    public Customer assignCompany(String id, String companyId) {
         final var company = companyService.getById(companyId);
         final var customerDb = getById(id);
         customerDb.setCompany(company);

@@ -55,6 +55,11 @@ public class AuthUserServiceImpl implements AuthUserService, UserDetailsService 
     }
 
     @Override
+    public AuthUser getSessionInfo(String username) {
+        return authUserRepository.findAuthUserByUsername(username);
+    }
+
+    @Override
     public AuthUser save(AuthUserRegisterDTO authUserRegisterDTO) {
         final var user = modelMapper.map(authUserRegisterDTO, AuthUser.class);
         return authUserRepository.save(user);

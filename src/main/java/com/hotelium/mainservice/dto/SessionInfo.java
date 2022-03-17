@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class SessionInfo implements Cloneable, Serializable {
     private String username;
     private AuthUser.AuthType type;
-    private Long userId;
+    private String userId;
 
     @Override
     public SessionInfo clone() {

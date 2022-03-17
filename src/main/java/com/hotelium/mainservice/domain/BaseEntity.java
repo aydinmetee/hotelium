@@ -1,5 +1,7 @@
 package com.hotelium.mainservice.domain;
 
+import com.hotelium.mainservice.util.IdGenerator;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,11 +37,17 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ID", nullable = false, length = 36)
+    private String id;
+    @Column(name = "ORG_ID", nullable = false, length = 36)
+    private String orgId;
+    @Column(name = "CRE_USER", length = 36)
+    private String creUser;
     @Column(name = "cre_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creDate;
+    @Column(name = "UPD_USER", length = 36)
+    private String updUser;
     @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updDate;
@@ -47,11 +55,15 @@ public class BaseEntity implements Serializable {
 
     @PrePersist
     public void onPrePersist() {
+        setId(IdGenerator.getUUID());
+        setOrgId(SessionContext.getSessionData().getOrgId());
+        setCreUser(SessionContext.getSessionData().getUserId());
         this.creDate = new Date();
     }
 
     @PreUpdate
     public void onPreUpdate() {
+        setUpdUser(SessionContext.getSessionData().getUserId());
         this.updDate = new Date();
     }
 

@@ -13,12 +13,12 @@ import org.springframework.data.domain.Pageable;
 public interface RoomServiceView {
     RoomReadDTO create(RoomWriteDTO roomWriteDTO);
 
-    RoomReadDTO getById(Long id);
+    RoomReadDTO getById(String id);
 
-    RoomReadDTO delete(Long id);
+    RoomReadDTO delete(String id);
 
     Page<RoomReadDTO> search(RoomSearchCriteriaDTO filter, Pageable pageable);
 
-    RoomReadDTO markAsClean(Long id);
+    RoomReadDTO markAsClean(String id);
 
 }

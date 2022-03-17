@@ -29,7 +29,7 @@ public class AccountTransactionServiceViewImpl implements AccountTransactionServ
     }
 
     @Override
-    public AccountTransactionReadDTO delete(Long id) {
+    public AccountTransactionReadDTO delete(String id) {
         return convertToDto(accountTransactionService.delete(id));
     }
 

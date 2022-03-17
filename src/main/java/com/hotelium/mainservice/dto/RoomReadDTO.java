@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomReadDTO extends RoomWriteDTO {
-    private Long id;
+    private String id;
     private Room.RoomStatus status;
 }

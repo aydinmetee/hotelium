@@ -14,14 +14,14 @@ import org.springframework.data.domain.Pageable;
 public interface ReservationMasterService {
     ReservationMaster create(ReservationMasterWriteDTO reservationMasterWriteDTO);
 
-    ReservationMaster getById(Long id);
+    ReservationMaster getById(String id);
 
-    ReservationMaster delete(Long id);
+    ReservationMaster delete(String id);
 
     Page<ReservationMaster> search(ReservationMasterSearchCriteriaDTO filter, Pageable pageable);
 
     ReservationMaster markAsBooking(ReservationBookingDTO reservationBookingDTO);
 
-    ReservationMaster markAsComplete(Long id);
+    ReservationMaster markAsComplete(String id);
 
 }

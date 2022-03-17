@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReservationMasterWriteDTO {
-    private Long roomId;
+    private String roomId;
     private String description;
 
 }

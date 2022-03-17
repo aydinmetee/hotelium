@@ -13,19 +13,19 @@ import org.springframework.data.domain.Pageable;
 public interface RoomService {
     Room create(RoomWriteDTO roomWriteDTO);
 
-    Room getById(Long id);
+    Room getById(String id);
 
-    Room delete(Long id);
+    Room delete(String id);
 
     Page<Room> search(RoomSearchCriteriaDTO filter, Pageable pageable);
 
-    Room markAsReserved(Long id);
+    Room markAsReserved(String id);
 
-    Room markAsFilled(Long id);
+    Room markAsFilled(String id);
 
-    Room markAsDirt(Long id);
+    Room markAsDirt(String id);
 
-    Room markAsClean(Long id);
+    Room markAsClean(String id);
 
     //TODO:STATU DEGISIMI ICIN MARK AS FONKSIYONLARI EKLENECEK.
 }

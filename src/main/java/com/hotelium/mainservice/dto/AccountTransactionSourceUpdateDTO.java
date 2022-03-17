@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AccountTransactionSourceUpdateDTO {
     @NotNull
-    private Long id;
+    private String id;
     @NotNull
     private AccountTransaction.TransactionSource source;
 

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Mete Aydin
  * @date 23.10.2021
  */
-public interface AuthUserRepository extends JpaRepository<AuthUser, Long> {
+public interface AuthUserRepository extends JpaRepository<AuthUser, String> {
     AuthUser findAuthUserByUsername(String username);
 }

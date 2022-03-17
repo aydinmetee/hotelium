@@ -15,9 +15,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class ReservationMasterReadDTO extends ReservationMasterWriteDTO {
-    private Long id;
+    private String id;
     private ReservationMaster.ReservationStatus status;
-    private Long accountTransactionId;
+    private String accountTransactionId;
     private Date checkInDate;
     private Date checkOutDate;
     private String roomCode;

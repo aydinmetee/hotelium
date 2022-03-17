@@ -57,7 +57,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     }
 
     @Override
-    public ReservationMaster getById(Long id) {
+    public ReservationMaster getById(String id) {
         final var master = reservationMasterRepository.findById(id);
         if (master.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.masterNotFound.exception"));
@@ -66,7 +66,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     }
 
     @Override
-    public ReservationMaster delete(Long id) {
+    public ReservationMaster delete(String id) {
         final var deletedMaster = reservationMasterRepository.getOne(id);
         reservationMasterRepository.deleteById(id);
         return deletedMaster;
@@ -94,7 +94,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     }
 
     @Override
-    public ReservationMaster markAsComplete(Long id) {
+    public ReservationMaster markAsComplete(String id) {
         final var reservationMaster = getById(id);
         reservationMaster.setStatus(ReservationMaster.ReservationStatus.COMPLETED);
         reservationMaster.setCheckOutDate(new Date());

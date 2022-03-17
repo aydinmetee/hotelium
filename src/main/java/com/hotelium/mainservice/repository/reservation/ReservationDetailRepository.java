@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @author Mete Aydin
  * @date 23.10.2021
  */
-public interface ReservationDetailRepository extends JpaRepository<ReservationDetail, Long>, JpaSpecificationExecutor<ReservationDetail> {
+public interface ReservationDetailRepository extends JpaRepository<ReservationDetail, String>, JpaSpecificationExecutor<ReservationDetail> {
 }

@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 public interface ReservationDetailServiceView {
     ReservationDetailReadDTO create(ReservationDetailWriteDTO reservationDetailWriteDTO);
 
-    ReservationDetailReadDTO getById(Long id);
+    ReservationDetailReadDTO getById(String id);
 
-    ReservationDetailReadDTO delete(Long id);
+    ReservationDetailReadDTO delete(String id);
 
     Page<ReservationDetailReadDTO> search(ReservationDetailSearchCriteriaDTO filter, Pageable pageable);
 }

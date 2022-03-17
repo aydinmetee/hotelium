@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.serviceview.auth;
 
+import com.hotelium.mainservice.domain.auth.AuthUser;
 import com.hotelium.mainservice.dto.auth.AuthUserLoginDTO;
 import com.hotelium.mainservice.dto.auth.AuthUserRegisterDTO;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,4 +15,6 @@ public interface AuthUserServiceView {
     Boolean save(AuthUserRegisterDTO authUserRegisterDTO);
 
     UserDetails loadUserByUsername(String username);
+
+    AuthUser getSessionInfo(String username);
 }

@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.util;
 
+import com.hotelium.mainservice.dto.auth.TokenResponseDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,18 +41,25 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public TokenResponseDTO generateToken(String username, String id, String orgId) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, username, id, orgId);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims)
+    private TokenResponseDTO createToken(Map<String, Object> claims, String subject, String id, String orgId) {
+        final var token = Jwts.builder().setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
+        return TokenResponseDTO.builder()
+                .accessToken(token)
+                .userName(subject)
+                .userId(id)
+                .orgId(orgId)
+                .expiredTime(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
+                .build();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

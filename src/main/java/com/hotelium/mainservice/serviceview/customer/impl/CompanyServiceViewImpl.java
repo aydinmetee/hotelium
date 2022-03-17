@@ -33,12 +33,12 @@ public class CompanyServiceViewImpl implements CompanyServiceView {
     }
 
     @Override
-    public CompanyReadDTO getById(Long id) {
+    public CompanyReadDTO getById(String id) {
         return convertToDto(companyService.getById(id));
     }
 
     @Override
-    public CompanyReadDTO delete(Long id) {
+    public CompanyReadDTO delete(String id) {
         return convertToDto(companyService.delete(id));
     }
 

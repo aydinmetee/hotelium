@@ -34,12 +34,12 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerReadDTO> getById(@PathVariable("customerId") Long customerId) {
+    public ResponseEntity<CustomerReadDTO> getById(@PathVariable("customerId") String customerId) {
         return ResponseEntity.ok(customerServiceView.getById(customerId));
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<CustomerReadDTO> delete(@PathVariable("customerId") Long customerId) {
+    public ResponseEntity<CustomerReadDTO> delete(@PathVariable("customerId") String customerId) {
         return ResponseEntity.ok(customerServiceView.delete(customerId));
     }
 
@@ -50,8 +50,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/assign-company/{companyId}")
-    public ResponseEntity<CustomerReadDTO> getById(@PathVariable("customerId") Long customerId,
-                                                   @PathVariable("companyId") Long companyId) {
+    public ResponseEntity<CustomerReadDTO> getById(@PathVariable("customerId") String customerId,
+                                                   @PathVariable("companyId") String companyId) {
         return ResponseEntity.ok(customerServiceView.assignCompany(customerId, companyId));
     }
 }

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @author Mete Aydin
  * @date 23.10.2021
  */
-public interface RoomRepository extends JpaRepository<Room, Long>, JpaSpecificationExecutor<Room> {
+public interface RoomRepository extends JpaRepository<Room, String>, JpaSpecificationExecutor<Room> {
 }

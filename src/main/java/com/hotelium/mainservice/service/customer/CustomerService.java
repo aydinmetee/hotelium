@@ -13,11 +13,11 @@ import org.springframework.data.domain.Pageable;
 public interface CustomerService {
     Customer create(CustomerWriteDTO customerWriteDTO);
 
-    Customer getById(Long id);
+    Customer getById(String id);
 
-    Customer delete(Long id);
+    Customer delete(String id);
 
     Page<Customer> search(CustomerSearchCriteriaDTO filter, Pageable pageable);
 
-    Customer assignCompany(Long id, Long companyId);
+    Customer assignCompany(String id, String companyId);
 }

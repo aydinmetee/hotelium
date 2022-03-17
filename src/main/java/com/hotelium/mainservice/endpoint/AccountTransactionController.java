@@ -33,7 +33,7 @@ public class AccountTransactionController {
 
 
     @DeleteMapping("/{accountId}")
-    public ResponseEntity<AccountTransactionReadDTO> delete(@PathVariable("accountId") Long accountId) {
+    public ResponseEntity<AccountTransactionReadDTO> delete(@PathVariable("accountId") String accountId) {
         return ResponseEntity.ok(accountTransactionServiceView.delete(accountId));
     }
 

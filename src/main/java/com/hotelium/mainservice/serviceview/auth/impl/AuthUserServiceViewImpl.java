@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.serviceview.auth.impl;
 
+import com.hotelium.mainservice.domain.auth.AuthUser;
 import com.hotelium.mainservice.dto.auth.AuthUserLoginDTO;
 import com.hotelium.mainservice.dto.auth.AuthUserRegisterDTO;
 import com.hotelium.mainservice.service.auth.impl.AuthUserServiceImpl;
@@ -36,5 +37,10 @@ public class AuthUserServiceViewImpl implements AuthUserServiceView {
     @Override
     public UserDetails loadUserByUsername(String username) {
         return authUserService.loadUserByUsername(username);
+    }
+
+    @Override
+    public AuthUser getSessionInfo(String username) {
+        return authUserService.getSessionInfo(username);
     }
 }

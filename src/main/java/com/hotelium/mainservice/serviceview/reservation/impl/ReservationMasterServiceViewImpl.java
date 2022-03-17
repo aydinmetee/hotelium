@@ -31,12 +31,12 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
     }
 
     @Override
-    public ReservationMasterReadDTO getById(Long id) {
+    public ReservationMasterReadDTO getById(String id) {
         return convertToDto(reservationMasterService.getById(id));
     }
 
     @Override
-    public ReservationMasterReadDTO delete(Long id) {
+    public ReservationMasterReadDTO delete(String id) {
         return convertToDto(reservationMasterService.delete(id));
     }
 
@@ -51,7 +51,7 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
     }
 
     @Override
-    public ReservationMasterReadDTO markAsComplete(Long id) {
+    public ReservationMasterReadDTO markAsComplete(String id) {
         return convertToDto(reservationMasterService.markAsComplete(id));
     }
 

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ReservationDetailReadDTO extends ReservationDetailWriteDTO {
-    private Long id;
+    private String id;
     private String customerFullName;
     private BigDecimal customerLegalId;
     private BigDecimal customerPhone;

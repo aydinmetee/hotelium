@@ -47,7 +47,7 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
     }
 
     @Override
-    public ReservationDetail getById(Long id) {
+    public ReservationDetail getById(String id) {
         final var reservationDetail = reservationDetailRepository.findById(id);
         if (reservationDetail.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.recordNotFound.exception"));
@@ -56,7 +56,7 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
     }
 
     @Override
-    public ReservationDetail delete(Long id) {
+    public ReservationDetail delete(String id) {
         final var deletedDetail = reservationDetailRepository.getOne(id);
         reservationDetailRepository.deleteById(id);
         return deletedDetail;

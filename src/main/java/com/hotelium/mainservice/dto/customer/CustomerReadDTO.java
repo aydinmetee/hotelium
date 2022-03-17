@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class CustomerReadDTO extends CustomerWriteDTO {
     private String companyName;
-    private Long id;
+    private String id;
 }

@@ -34,12 +34,12 @@ public class CompanyController {
     }
 
     @GetMapping("/{companyId}")
-    public ResponseEntity<CompanyReadDTO> getById(@PathVariable("companyId") Long companyId) {
+    public ResponseEntity<CompanyReadDTO> getById(@PathVariable("companyId") String companyId) {
         return ResponseEntity.ok(companyServiceView.getById(companyId));
     }
 
     @DeleteMapping("/{companyId}")
-    public ResponseEntity<CompanyReadDTO> delete(@PathVariable("companyId") Long companyId) {
+    public ResponseEntity<CompanyReadDTO> delete(@PathVariable("companyId") String companyId) {
         return ResponseEntity.ok(companyServiceView.delete(companyId));
     }
 

@@ -34,13 +34,13 @@ public class RoomController {
 
     @GetMapping("/{roomId}")
     @ApiOperation(value = "Get By Id Room", response = RoomReadDTO.class)
-    public ResponseEntity<RoomReadDTO> getById(@PathVariable("roomId") Long roomId) {
+    public ResponseEntity<RoomReadDTO> getById(@PathVariable("roomId") String roomId) {
         return ResponseEntity.ok(roomServiceView.getById(roomId));
     }
 
     @DeleteMapping("/{roomId}")
     @ApiOperation(value = "Delete Room", response = RoomReadDTO.class)
-    public ResponseEntity<RoomReadDTO> delete(@PathVariable("roomId") Long customerId) {
+    public ResponseEntity<RoomReadDTO> delete(@PathVariable("roomId") String customerId) {
         return ResponseEntity.ok(roomServiceView.delete(customerId));
     }
 
@@ -53,7 +53,7 @@ public class RoomController {
 
     @GetMapping("/{roomId}/mark-as-clean")
     @ApiOperation(value = "Mark as clean", response = RoomReadDTO.class)
-    public ResponseEntity<RoomReadDTO> markAsClean(@PathVariable("roomId") Long roomId) {
+    public ResponseEntity<RoomReadDTO> markAsClean(@PathVariable("roomId") String roomId) {
         return ResponseEntity.ok(roomServiceView.markAsClean(roomId));
     }
 }

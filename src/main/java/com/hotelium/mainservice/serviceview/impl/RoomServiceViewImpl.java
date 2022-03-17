@@ -28,12 +28,12 @@ public class RoomServiceViewImpl implements RoomServiceView {
     }
 
     @Override
-    public RoomReadDTO getById(Long id) {
+    public RoomReadDTO getById(String id) {
         return convertToDTO(roomService.getById(id));
     }
 
     @Override
-    public RoomReadDTO delete(Long id) {
+    public RoomReadDTO delete(String id) {
         return convertToDTO(roomService.delete(id));
     }
 
@@ -43,7 +43,7 @@ public class RoomServiceViewImpl implements RoomServiceView {
     }
 
     @Override
-    public RoomReadDTO markAsClean(Long id) {
+    public RoomReadDTO markAsClean(String id) {
         return convertToDTO(roomService.markAsClean(id));
     }
 

@@ -31,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company getById(Long id) {
+    public Company getById(String id) {
         final var company = companyRepository.findById(id);
         if (company.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("customer.companyNotFound.exception"));
@@ -40,7 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company delete(Long id) {
+    public Company delete(String id) {
         final var deletedCompany = getById(id);
         companyRepository.deleteById(id);
         return deletedCompany;

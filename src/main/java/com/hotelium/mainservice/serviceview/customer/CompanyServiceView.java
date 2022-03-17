@@ -14,9 +14,9 @@ import org.springframework.data.domain.Pageable;
 public interface CompanyServiceView {
     CompanyReadDTO create(CompanyWriteDTO companyWriteDTO);
 
-    CompanyReadDTO getById(Long id);
+    CompanyReadDTO getById(String id);
 
-    CompanyReadDTO delete(Long id);
+    CompanyReadDTO delete(String id);
 
     Page<CompanyReadDTO> search(CompanySearchCriteriaDTO filter, Pageable pageable);
 }

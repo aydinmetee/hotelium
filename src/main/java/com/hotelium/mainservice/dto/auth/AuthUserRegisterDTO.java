@@ -20,4 +20,5 @@ import lombok.ToString;
 @AllArgsConstructor
 public class AuthUserRegisterDTO extends AuthUserLoginDTO {
     private AuthUser.AuthType type;
+    private String orgId;
 }

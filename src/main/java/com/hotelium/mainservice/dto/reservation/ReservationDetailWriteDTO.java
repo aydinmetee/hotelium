@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReservationDetailWriteDTO {
-    private Long reservationMasterId;
-    private Long customerId;
+    private String reservationMasterId;
+    private String customerId;
 }

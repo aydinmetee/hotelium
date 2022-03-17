@@ -30,12 +30,12 @@ public class CustomerServiceViewImpl implements CustomerServiceView {
     }
 
     @Override
-    public CustomerReadDTO getById(Long id) {
+    public CustomerReadDTO getById(String id) {
         return convertToDTO(customerService.getById(id));
     }
 
     @Override
-    public CustomerReadDTO delete(Long id) {
+    public CustomerReadDTO delete(String id) {
         return convertToDTO(customerService.delete(id));
     }
 
@@ -45,7 +45,7 @@ public class CustomerServiceViewImpl implements CustomerServiceView {
     }
 
     @Override
-    public CustomerReadDTO assignCompany(Long id, Long companyId) {
+    public CustomerReadDTO assignCompany(String id, String companyId) {
         return convertToDTO(customerService.assignCompany(id, companyId));
     }
 

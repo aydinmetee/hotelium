@@ -32,7 +32,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     }
 
     @Override
-    public AccountTransaction getById(Long id) {
+    public AccountTransaction getById(String id) {
         final var accountTransaction = accountTransactionRepository.findById(id);
         if (accountTransaction.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("accountTransaction.recordNotFound.exception"));
@@ -41,7 +41,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     }
 
     @Override
-    public AccountTransaction delete(Long id) {
+    public AccountTransaction delete(String id) {
         final var deletedAccount = getById(id);
         accountTransactionRepository.deleteById(id);
         return deletedAccount;

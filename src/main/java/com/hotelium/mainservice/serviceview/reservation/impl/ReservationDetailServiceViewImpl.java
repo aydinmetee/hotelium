@@ -28,12 +28,12 @@ public class ReservationDetailServiceViewImpl implements ReservationDetailServic
     }
 
     @Override
-    public ReservationDetailReadDTO getById(Long id) {
+    public ReservationDetailReadDTO getById(String id) {
         return convertToDto(reservationDetailService.getById(id));
     }
 
     @Override
-    public ReservationDetailReadDTO delete(Long id) {
+    public ReservationDetailReadDTO delete(String id) {
         return convertToDto(reservationDetailService.delete(id));
     }
 

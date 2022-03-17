@@ -14,9 +14,9 @@ import org.springframework.data.domain.Pageable;
 public interface AccountTransactionService {
     AccountTransaction create(AccountTransactionWriteDTO accountTransactionWriteDTO);
 
-    AccountTransaction getById(Long id);
+    AccountTransaction getById(String id);
 
-    AccountTransaction delete(Long id);
+    AccountTransaction delete(String id);
 
     Page<AccountTransaction> search(AccountTransactionSearchCriteriaDTO filter, Pageable pageable);
 

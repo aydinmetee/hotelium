@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ReservationBookingDTO {
-    private Long masterId;
+    private String masterId;
     private BigDecimal amount;
     private AccountTransaction.TransactionSource source;
 }

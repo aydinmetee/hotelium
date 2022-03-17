@@ -32,7 +32,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room getById(Long id) {
+    public Room getById(String id) {
         final var room = roomRepository.findById(id);
         if (room.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room delete(Long id) {
+    public Room delete(String id) {
         final var roomDb = getById(id);
         roomRepository.deleteById(id);
         return roomDb;
@@ -53,28 +53,28 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room markAsReserved(Long id) {
+    public Room markAsReserved(String id) {
         final var roomDb = getById(id);
         roomDb.setStatus(Room.RoomStatus.RESERVED);
         return roomRepository.save(roomDb);
     }
 
     @Override
-    public Room markAsFilled(Long id) {
+    public Room markAsFilled(String id) {
         final var roomDb = getById(id);
         roomDb.setStatus(Room.RoomStatus.FILLED);
         return roomRepository.save(roomDb);
     }
 
     @Override
-    public Room markAsDirt(Long id) {
+    public Room markAsDirt(String id) {
         final var roomDb = getById(id);
         roomDb.setStatus(Room.RoomStatus.DIRTY);
         return roomRepository.save(roomDb);
     }
 
     @Override
-    public Room markAsClean(Long id) {
+    public Room markAsClean(String id) {
         final var roomDb = getById(id);
         roomDb.setStatus(Room.RoomStatus.CLEAN);
         return roomRepository.save(roomDb);
