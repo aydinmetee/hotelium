@@ -14,6 +14,6 @@ import java.math.BigDecimal;
 public class CompanyWriteDTO {
     private String nameTitle;
     private String address;
-    private BigDecimal legalNo;
+    private String legalNo;
     private String taxOffice;
 }

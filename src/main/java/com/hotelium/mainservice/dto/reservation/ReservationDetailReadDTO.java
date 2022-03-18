@@ -15,8 +15,8 @@ import java.util.Date;
 public class ReservationDetailReadDTO extends ReservationDetailWriteDTO {
     private String id;
     private String customerFullName;
-    private BigDecimal customerLegalId;
-    private BigDecimal customerPhone;
+    private String customerLegalId;
+    private String customerPhone;
     private String orgId;
     private Date creDate;
     private String creUser;

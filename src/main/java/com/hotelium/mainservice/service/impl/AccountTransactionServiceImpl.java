@@ -1,9 +1,9 @@
 package com.hotelium.mainservice.service.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
-import com.hotelium.mainservice.dto.AccountTransactionSearchCriteriaDTO;
-import com.hotelium.mainservice.dto.AccountTransactionSourceUpdateDTO;
-import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionSearchCriteriaDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionSourceUpdateDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.AccountTransactionRepository;
 import com.hotelium.mainservice.service.AccountTransactionService;

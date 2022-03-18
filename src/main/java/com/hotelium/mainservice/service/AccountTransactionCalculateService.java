@@ -1,6 +1,6 @@
 package com.hotelium.mainservice.service;
 
-import com.hotelium.mainservice.dto.AccountTransactionBalanceDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionBalanceDTO;
 
 /**
  * @author Mete Aydin

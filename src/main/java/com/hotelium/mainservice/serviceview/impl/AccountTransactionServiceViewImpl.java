@@ -1,7 +1,7 @@
 package com.hotelium.mainservice.serviceview.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
-import com.hotelium.mainservice.dto.*;
+import com.hotelium.mainservice.dto.account.*;
 import com.hotelium.mainservice.service.AccountTransactionCalculateService;
 import com.hotelium.mainservice.service.AccountTransactionService;
 import com.hotelium.mainservice.serviceview.AccountTransactionServiceView;

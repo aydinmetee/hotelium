@@ -31,7 +31,7 @@ public class Company extends BaseEntity {
     @Column(name = "address")
     private String address;
     @Column(name = "legal_no")
-    private BigDecimal legalNo;
+    private String legalNo;
     @Column(name = "tax_office")
     private String taxOffice;
 }

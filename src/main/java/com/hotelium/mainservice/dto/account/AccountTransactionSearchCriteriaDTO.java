@@ -1,4 +1,4 @@
-package com.hotelium.mainservice.dto;
+package com.hotelium.mainservice.dto.account;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
 import com.hotelium.mainservice.util.SearchCriteria;

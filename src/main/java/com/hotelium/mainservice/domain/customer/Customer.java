@@ -37,7 +37,7 @@ public class Customer extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
     @Column(name = "legal_id", length = 11)
-    private BigDecimal legalId;
+    private String legalId;
     @Column(name = "phone", length = 10)
-    private BigDecimal phone;
+    private String phone;
 }

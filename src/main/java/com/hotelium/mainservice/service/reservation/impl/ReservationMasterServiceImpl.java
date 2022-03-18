@@ -3,7 +3,7 @@ package com.hotelium.mainservice.service.reservation.impl;
 import com.hotelium.mainservice.domain.AccountTransaction;
 import com.hotelium.mainservice.domain.Room;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
-import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
