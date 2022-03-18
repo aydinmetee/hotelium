@@ -9,6 +9,7 @@ import com.hotelium.mainservice.service.customer.CustomerService;
 import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -28,8 +29,8 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
 
     @Autowired
     public ReservationDetailServiceImpl(ReservationDetailRepository reservationDetailRepository,
-                                             @Lazy ReservationMasterService reservationMasterService,
-                                             @Lazy CustomerService customerService, MessageUtil messageUtil) {
+                                        @Lazy ReservationMasterService reservationMasterService,
+                                        @Lazy CustomerService customerService, MessageUtil messageUtil) {
         this.reservationDetailRepository = reservationDetailRepository;
         this.reservationMasterService = reservationMasterService;
         this.customerService = customerService;
@@ -48,7 +49,8 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
 
     @Override
     public ReservationDetail getById(String id) {
-        final var reservationDetail = reservationDetailRepository.findById(id);
+        final var reservationDetail = reservationDetailRepository.findByIdAndOrgId(id,
+                SessionContext.getSessionData().getOrgId());
         if (reservationDetail.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.recordNotFound.exception"));
         }
@@ -64,6 +66,7 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
 
     @Override
     public Page<ReservationDetail> search(ReservationDetailSearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return reservationDetailRepository.findAll(filter.ReservationDetailSearchCriteriaFieldMapper(filter), pageable);
     }
 }

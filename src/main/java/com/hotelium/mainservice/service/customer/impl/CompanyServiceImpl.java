@@ -7,6 +7,7 @@ import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.customer.CompanyRepository;
 import com.hotelium.mainservice.service.customer.CompanyService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company getById(String id) {
-        final var company = companyRepository.findById(id);
+        final var company = companyRepository.findByIdAndOrgId(id,
+                SessionContext.getSessionData().getOrgId());
         if (company.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("customer.companyNotFound.exception"));
         }
@@ -48,6 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Page<Company> search(CompanySearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return companyRepository.findAll(filter.CompanySearchCriteriaFieldMapper(filter), pageable);
     }
 }

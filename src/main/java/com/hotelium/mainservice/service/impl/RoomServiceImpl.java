@@ -7,6 +7,7 @@ import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.RoomRepository;
 import com.hotelium.mainservice.service.RoomService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getById(String id) {
-        final var room = roomRepository.findById(id);
+        final var room = roomRepository.findByIdAndOrgId(id, SessionContext.getSessionData().getOrgId());
         if (room.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
         }
@@ -49,6 +50,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Page<Room> search(RoomSearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return roomRepository.findAll(filter.RoomSearchCriteriaFieldMapper(filter), pageable);
     }
 

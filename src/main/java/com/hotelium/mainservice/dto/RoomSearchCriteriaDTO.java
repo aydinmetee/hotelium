@@ -19,6 +19,9 @@ public class RoomSearchCriteriaDTO extends RoomReadDTO {
         searchCriteriaOptions.add(new SearchCriteria("status", filter.getStatus(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("code", filter.getCode(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("capacity", filter.getCapacity(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("orgId",filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("creUser",filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("updUser",filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

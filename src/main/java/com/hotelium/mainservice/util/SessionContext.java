@@ -1,8 +1,8 @@
 package com.hotelium.mainservice.util;
 
 /**
- * @author Melih ŞİNİK
- * @since 17.10.2021
+ * @author Mete Aydın
+ * @since 18.03.2022
  */
 public class SessionContext {
     private static final ThreadLocal<SessionData> THREAD_LOCAL_SESSION_DATA = new ThreadLocal<>();

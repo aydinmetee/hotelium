@@ -8,6 +8,7 @@ import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.AccountTransactionRepository;
 import com.hotelium.mainservice.service.AccountTransactionService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     public AccountTransaction getById(String id) {
-        final var accountTransaction = accountTransactionRepository.findById(id);
+        final var accountTransaction = accountTransactionRepository.findByIdAndOrgId(id,
+                SessionContext.getSessionData().getOrgId());
         if (accountTransaction.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("accountTransaction.recordNotFound.exception"));
         }
@@ -49,6 +51,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
     @Override
     public Page<AccountTransaction> search(AccountTransactionSearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return accountTransactionRepository.findAll(filter.accountTransactionSearchCriteriaFieldMapper(filter), pageable);
     }
 

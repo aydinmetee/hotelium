@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * @author Melih ŞİNİK
- * @since 17.10.2021
+ * @author Mete Aydın
+ * @since 18.03.2022
  */
 @Builder
 @Getter

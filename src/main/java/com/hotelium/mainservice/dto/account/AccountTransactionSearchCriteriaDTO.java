@@ -26,6 +26,9 @@ public class AccountTransactionSearchCriteriaDTO extends AccountTransactionReadD
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("creDate", filter.getFirstDate(), SearchCriteria.SearchOperation.GREATER_THAN_EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("creDate", filter.getLastDate(), SearchCriteria.SearchOperation.LESS_THAN_EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("orgId", filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("creUser", filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("updUser", filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }
