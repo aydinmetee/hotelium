@@ -13,6 +13,7 @@ import com.hotelium.mainservice.util.SessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
 
     @Override
     public ReservationDetail create(ReservationDetailWriteDTO reservationDetailWriteDTO) {
+        checkCustomerAlreadyExistInReservation(reservationDetailWriteDTO);
         final var reservationDetail = new ReservationDetail();
         reservationDetail.setReservationMaster(reservationMasterService
                 .getById(reservationDetailWriteDTO.getReservationMasterId()));
@@ -68,5 +70,15 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
     public Page<ReservationDetail> search(ReservationDetailSearchCriteriaDTO filter, Pageable pageable) {
         filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return reservationDetailRepository.findAll(filter.ReservationDetailSearchCriteriaFieldMapper(filter), pageable);
+    }
+
+    private void checkCustomerAlreadyExistInReservation(ReservationDetailWriteDTO reservationDetailWriteDTO) {
+        final var filter = new ReservationDetailSearchCriteriaDTO();
+        filter.setReservationMasterId(reservationDetailWriteDTO.getReservationMasterId());
+        filter.setCustomerId(reservationDetailWriteDTO.getCustomerId());
+        final var details = search(filter, PageRequest.of(0, 10));
+        if (details.hasContent()) {
+            throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerAlreadyExist.exception"));
+        }
     }
 }
