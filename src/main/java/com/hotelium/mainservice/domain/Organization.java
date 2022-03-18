@@ -1,11 +1,11 @@
 package com.hotelium.mainservice.domain;
 
+import com.hotelium.mainservice.util.IdGenerator;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @RequiredArgsConstructor
 @Getter
@@ -22,4 +22,9 @@ public class Organization {
     private String code;
     @Column(name = "name", unique = true)
     private String name;
+
+    @PrePersist
+    public void onPrePersist() {
+        setId(IdGenerator.getUUID());
+    }
 }
