@@ -58,6 +58,7 @@ public class CustomerServiceViewImpl implements CustomerServiceView {
         final var customerReadDTO = modelMapper.map(customer, CustomerReadDTO.class);
         if (Objects.nonNull(customer.getCompany())) {
             customerReadDTO.setCompanyName(customer.getCompany().getNameTitle());
+            customerReadDTO.setCompanyId(customer.getCompany().getId());
         }
         return customerReadDTO;
     }

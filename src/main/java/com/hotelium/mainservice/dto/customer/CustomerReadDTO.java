@@ -19,4 +19,5 @@ public class CustomerReadDTO extends CustomerWriteDTO {
     private String creUser;
     private Date updDate;
     private String updUser;
+    private String companyId;
 }
