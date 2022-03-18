@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @Service
 @RequiredArgsConstructor
@@ -39,6 +39,13 @@ public class CompanyServiceImpl implements CompanyService {
             throw new ServiceExecutionException(messageUtil.get("customer.companyNotFound.exception"));
         }
         return company.get();
+    }
+
+    @Override
+    public Company update(String id, CompanyWriteDTO companyWriteDTO) {
+        final var updatedCompany = getById(id);
+        modelMapper.map(companyWriteDTO, updatedCompany);
+        return companyRepository.save(updatedCompany);
     }
 
     @Override

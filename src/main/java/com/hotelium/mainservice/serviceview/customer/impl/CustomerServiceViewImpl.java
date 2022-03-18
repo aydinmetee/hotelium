@@ -16,7 +16,7 @@ import java.util.Objects;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,11 @@ public class CustomerServiceViewImpl implements CustomerServiceView {
     @Override
     public CustomerReadDTO getById(String id) {
         return convertToDTO(customerService.getById(id));
+    }
+
+    @Override
+    public CustomerReadDTO update(String id, CustomerWriteDTO customerWriteDTO) {
+        return convertToDTO(customerService.update(id, customerWriteDTO));
     }
 
     @Override

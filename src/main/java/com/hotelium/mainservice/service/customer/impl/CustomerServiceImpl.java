@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @Service
 @RequiredArgsConstructor
@@ -43,6 +43,13 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerNotFound.exception"));
         }
         return customer.get();
+    }
+
+    @Override
+    public Customer update(String id, CustomerWriteDTO customerWriteDTO) {
+        final var updatedCustomer = getById(id);
+        modelMapper.map(customerWriteDTO, updatedCustomer);
+        return customerRepository.save(updatedCustomer);
     }
 
     @Override
