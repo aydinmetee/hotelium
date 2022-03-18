@@ -8,9 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +28,13 @@ public class RoomController {
     @ApiOperation(value = "Create Room", response = RoomReadDTO.class)
     public ResponseEntity<RoomReadDTO> create(@RequestBody RoomWriteDTO roomWriteDTO) {
         return ResponseEntity.ok(roomServiceView.create(roomWriteDTO));
+    }
+
+    @PutMapping("/{roomId}")
+    @ApiOperation(value = "Update Room", response = RoomReadDTO.class)
+    public ResponseEntity<RoomReadDTO> update(@PathVariable("roomId") String roomId,
+                                              @RequestBody RoomWriteDTO roomWriteDTO) {
+        return ResponseEntity.ok(roomServiceView.update(roomId, roomWriteDTO));
     }
 
     @GetMapping("/{roomId}")

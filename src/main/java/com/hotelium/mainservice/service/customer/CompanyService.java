@@ -8,12 +8,14 @@ import org.springframework.data.domain.Pageable;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 public interface CompanyService {
     Company create(CompanyWriteDTO companyWriteDTO);
 
     Company getById(String id);
+
+    Company update(String id, CompanyWriteDTO companyWriteDTO);
 
     Company delete(String id);
 

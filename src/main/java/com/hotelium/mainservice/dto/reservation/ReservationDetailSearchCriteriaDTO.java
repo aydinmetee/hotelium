@@ -21,6 +21,9 @@ public class ReservationDetailSearchCriteriaDTO extends ReservationDetailReadDTO
         searchCriteriaOptions.add(new SearchCriteria("customer/id", filter.getCustomerId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("customer/phone", filter.getCustomerPhone(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("customer/legalId", filter.getCustomerLegalId(), SearchCriteria.SearchOperation.LIKE));
+        searchCriteriaOptions.add(new SearchCriteria("orgId",filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("creUser",filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("updUser",filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

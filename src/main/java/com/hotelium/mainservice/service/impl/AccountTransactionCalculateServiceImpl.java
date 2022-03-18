@@ -1,7 +1,7 @@
 package com.hotelium.mainservice.service.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
-import com.hotelium.mainservice.dto.AccountTransactionBalanceDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionBalanceDTO;
 import com.hotelium.mainservice.repository.AccountTransactionRepository;
 import com.hotelium.mainservice.service.AccountTransactionCalculateService;
 import com.hotelium.mainservice.util.DateUtil;

@@ -23,5 +23,10 @@ public class ReservationMasterReadDTO extends ReservationMasterWriteDTO {
     private String roomCode;
     private BigDecimal bookAmount;
     private AccountTransaction.TransactionSource source;
+    private String orgId;
+    private Date creDate;
+    private String creUser;
+    private Date updDate;
+    private String updUser;
 
 }

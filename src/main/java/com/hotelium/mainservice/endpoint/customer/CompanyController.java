@@ -4,23 +4,16 @@ import com.hotelium.mainservice.dto.customer.CompanyReadDTO;
 import com.hotelium.mainservice.dto.customer.CompanySearchCriteriaDTO;
 import com.hotelium.mainservice.dto.customer.CompanyWriteDTO;
 import com.hotelium.mainservice.serviceview.customer.CompanyServiceView;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @RestController
 @RequestMapping("/company")
@@ -36,6 +29,13 @@ public class CompanyController {
     @GetMapping("/{companyId}")
     public ResponseEntity<CompanyReadDTO> getById(@PathVariable("companyId") String companyId) {
         return ResponseEntity.ok(companyServiceView.getById(companyId));
+    }
+
+    @PutMapping("/{companyId}")
+    @ApiOperation(value = "Update Company", response = CompanyReadDTO.class)
+    public ResponseEntity<CompanyReadDTO> update(@PathVariable("companyId") String companyId,
+                                                 @RequestBody CompanyWriteDTO companyWriteDTO) {
+        return ResponseEntity.ok(companyServiceView.update(companyId, companyWriteDTO));
     }
 
     @DeleteMapping("/{companyId}")

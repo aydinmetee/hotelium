@@ -8,12 +8,14 @@ import org.springframework.data.domain.Pageable;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 public interface CustomerService {
     Customer create(CustomerWriteDTO customerWriteDTO);
 
     Customer getById(String id);
+
+    Customer update(String id, CustomerWriteDTO customerWriteDTO);
 
     Customer delete(String id);
 

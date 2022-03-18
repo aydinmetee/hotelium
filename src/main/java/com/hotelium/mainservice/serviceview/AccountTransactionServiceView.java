@@ -1,6 +1,6 @@
 package com.hotelium.mainservice.serviceview;
 
-import com.hotelium.mainservice.dto.*;
+import com.hotelium.mainservice.dto.account.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

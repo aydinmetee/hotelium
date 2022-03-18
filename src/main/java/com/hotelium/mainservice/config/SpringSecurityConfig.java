@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * @author Mete Aydin
- * @date 24.10.2021
+ * @since 24.10.2021
  */
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -45,7 +45,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             // other public endpoints of your API may be appended to this array
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            "/org-def"
     };
 
     @Override

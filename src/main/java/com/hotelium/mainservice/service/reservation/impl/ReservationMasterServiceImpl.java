@@ -3,7 +3,7 @@ package com.hotelium.mainservice.service.reservation.impl;
 import com.hotelium.mainservice.domain.AccountTransaction;
 import com.hotelium.mainservice.domain.Room;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
-import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
@@ -15,6 +15,7 @@ import com.hotelium.mainservice.service.RoomService;
 import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
@@ -58,7 +59,8 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
 
     @Override
     public ReservationMaster getById(String id) {
-        final var master = reservationMasterRepository.findById(id);
+        final var master = reservationMasterRepository.findByIdAndOrgId(id,
+                SessionContext.getSessionData().getOrgId());
         if (master.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.masterNotFound.exception"));
         }
@@ -74,6 +76,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
 
     @Override
     public Page<ReservationMaster> search(ReservationMasterSearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return reservationMasterRepository.findAll(filter.ReservationMasterSearchCriteriaFieldMapper(filter), pageable);
     }
 
@@ -102,17 +105,17 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         return reservationMasterRepository.save(reservationMaster);
     }
 
-    private void checkRoomStatus(Room room){
-        if(!Room.RoomStatus.CLEAN.equals(room.getStatus())){
+    private void checkRoomStatus(Room room) {
+        if (!Room.RoomStatus.CLEAN.equals(room.getStatus())) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomStatus.exception"));
         }
     }
 
-    private void checkHasMasterGotDetail(ReservationMaster reservationMaster){
+    private void checkHasMasterGotDetail(ReservationMaster reservationMaster) {
         final var detailFilter = new ReservationDetailSearchCriteriaDTO();
         detailFilter.setReservationMasterId(reservationMaster.getId());
-        final var details = reservationDetailService.search(detailFilter, PageRequest.of(0,1));
-        if(!details.hasContent()){
+        final var details = reservationDetailService.search(detailFilter, PageRequest.of(0, 1));
+        if (!details.hasContent()) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.detailNotFound.exception"));
         }
     }

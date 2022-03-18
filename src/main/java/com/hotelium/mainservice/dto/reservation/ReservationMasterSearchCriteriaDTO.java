@@ -25,6 +25,9 @@ public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("accountTransaction/amount", filter.getBookAmount(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("accountTransaction/source", filter.getSource(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("orgId",filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("creUser",filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("updUser",filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

@@ -62,6 +62,10 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
             readDTO.setBookAmount(reservationMaster.getAccountTransaction().getAmount());
             readDTO.setSource(reservationMaster.getAccountTransaction().getSource());
         }
+        if (Objects.nonNull(reservationMaster.getRoom())) {
+            readDTO.setRoomCode(reservationMaster.getRoom().getCode());
+            readDTO.setRoomId(reservationMaster.getRoom().getId());
+        }
         return readDTO;
     }
 }

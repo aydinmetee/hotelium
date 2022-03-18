@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @RequiredArgsConstructor
 @Service
@@ -35,6 +35,11 @@ public class CompanyServiceViewImpl implements CompanyServiceView {
     @Override
     public CompanyReadDTO getById(String id) {
         return convertToDto(companyService.getById(id));
+    }
+
+    @Override
+    public CompanyReadDTO update(String id, CompanyWriteDTO companyWriteDTO) {
+        return convertToDto(companyService.update(id, companyWriteDTO));
     }
 
     @Override

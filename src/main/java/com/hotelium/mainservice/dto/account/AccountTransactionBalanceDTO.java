@@ -1,4 +1,4 @@
-package com.hotelium.mainservice.dto;
+package com.hotelium.mainservice.dto.account;
 
 import lombok.Getter;
 import lombok.Setter;

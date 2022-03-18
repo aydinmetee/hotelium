@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Melih ŞİNİK
- * @since 17.10.2021
+ * @author Mete Aydın
+ * @since 18.03.2022
  */
 @Component
 @Aspect

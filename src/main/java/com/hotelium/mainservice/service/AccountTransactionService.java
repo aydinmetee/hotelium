@@ -1,9 +1,9 @@
 package com.hotelium.mainservice.service;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
-import com.hotelium.mainservice.dto.AccountTransactionSearchCriteriaDTO;
-import com.hotelium.mainservice.dto.AccountTransactionSourceUpdateDTO;
-import com.hotelium.mainservice.dto.AccountTransactionWriteDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionSearchCriteriaDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionSourceUpdateDTO;
+import com.hotelium.mainservice.dto.account.AccountTransactionWriteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

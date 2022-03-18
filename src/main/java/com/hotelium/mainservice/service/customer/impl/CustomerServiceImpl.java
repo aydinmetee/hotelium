@@ -8,6 +8,7 @@ import com.hotelium.mainservice.repository.customer.CustomerRepository;
 import com.hotelium.mainservice.service.customer.CompanyService;
 import com.hotelium.mainservice.service.customer.CustomerService;
 import com.hotelium.mainservice.util.MessageUtil;
+import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
@@ -15,11 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 /**
  * @author Mete Aydin
- * @date 23.10.2021
+ * @since 23.10.2021
  */
 @Service
 @RequiredArgsConstructor
@@ -38,11 +37,19 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getById(String id) {
-        final var customer = customerRepository.findById(id);
+        final var customer = customerRepository.findByIdAndOrgId(id,
+                SessionContext.getSessionData().getOrgId());
         if (customer.isEmpty()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerNotFound.exception"));
         }
         return customer.get();
+    }
+
+    @Override
+    public Customer update(String id, CustomerWriteDTO customerWriteDTO) {
+        final var updatedCustomer = getById(id);
+        modelMapper.map(customerWriteDTO, updatedCustomer);
+        return customerRepository.save(updatedCustomer);
     }
 
     @Override
@@ -54,6 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<Customer> search(CustomerSearchCriteriaDTO filter, Pageable pageable) {
+        filter.setOrgId(SessionContext.getSessionData().getOrgId());
         return customerRepository.findAll(filter.CustomerSearchCriteriaFieldMapper(filter), pageable);
     }
 
