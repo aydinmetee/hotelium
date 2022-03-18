@@ -15,6 +15,8 @@ public interface RoomServiceView {
 
     RoomReadDTO getById(String id);
 
+    RoomReadDTO update(String id, RoomWriteDTO roomWriteDTO);
+
     RoomReadDTO delete(String id);
 
     Page<RoomReadDTO> search(RoomSearchCriteriaDTO filter, Pageable pageable);

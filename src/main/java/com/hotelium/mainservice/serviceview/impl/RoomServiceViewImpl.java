@@ -33,6 +33,11 @@ public class RoomServiceViewImpl implements RoomServiceView {
     }
 
     @Override
+    public RoomReadDTO update(String id, RoomWriteDTO roomWriteDTO) {
+        return convertToDTO(roomService.update(id, roomWriteDTO));
+    }
+
+    @Override
     public RoomReadDTO delete(String id) {
         return convertToDTO(roomService.delete(id));
     }

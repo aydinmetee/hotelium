@@ -42,6 +42,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Room update(String id, RoomWriteDTO roomWriteDTO) {
+        final var updatedRoom = getById(id);
+        modelMapper.map(roomWriteDTO, updatedRoom);
+        return roomRepository.save(updatedRoom);
+    }
+
+    @Override
     public Room delete(String id) {
         final var roomDb = getById(id);
         roomRepository.deleteById(id);
