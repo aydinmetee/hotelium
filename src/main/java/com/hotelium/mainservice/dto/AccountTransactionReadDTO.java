@@ -3,6 +3,8 @@ package com.hotelium.mainservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -11,4 +13,9 @@ import lombok.Setter;
 @Setter
 public class AccountTransactionReadDTO extends AccountTransactionWriteDTO {
     private String id;
+    private String orgId;
+    private Date creDate;
+    private String creUser;
+    private Date updDate;
+    private String updUser;
 }

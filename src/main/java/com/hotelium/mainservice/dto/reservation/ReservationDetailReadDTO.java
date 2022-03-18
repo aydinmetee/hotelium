@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author Mete Aydin
@@ -16,4 +17,9 @@ public class ReservationDetailReadDTO extends ReservationDetailWriteDTO {
     private String customerFullName;
     private BigDecimal customerLegalId;
     private BigDecimal customerPhone;
+    private String orgId;
+    private Date creDate;
+    private String creUser;
+    private Date updDate;
+    private String updUser;
 }

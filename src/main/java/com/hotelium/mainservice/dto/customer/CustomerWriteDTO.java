@@ -16,5 +16,4 @@ public class CustomerWriteDTO {
     private String lastname;
     private BigDecimal legalId;
     private BigDecimal phone;
-
 }
