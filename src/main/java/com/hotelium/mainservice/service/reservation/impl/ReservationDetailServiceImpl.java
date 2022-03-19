@@ -1,6 +1,7 @@
 package com.hotelium.mainservice.service.reservation.impl;
 
 import com.hotelium.mainservice.domain.reservation.ReservationDetail;
+import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailWriteDTO;
 import com.hotelium.mainservice.exception.ServiceExecutionException;
@@ -42,6 +43,7 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
     @Override
     public ReservationDetail create(ReservationDetailWriteDTO reservationDetailWriteDTO) {
         checkCustomerAlreadyExistInReservation(reservationDetailWriteDTO);
+        checkCustomerAlreadyExistInAnotherReservation(reservationDetailWriteDTO);
         final var reservationDetail = new ReservationDetail();
         reservationDetail.setReservationMaster(reservationMasterService
                 .getById(reservationDetailWriteDTO.getReservationMasterId()));
@@ -80,5 +82,17 @@ public class ReservationDetailServiceImpl implements ReservationDetailService {
         if (details.hasContent()) {
             throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerAlreadyExist.exception"));
         }
+    }
+
+    private void checkCustomerAlreadyExistInAnotherReservation(ReservationDetailWriteDTO reservationDetailWriteDTO) {
+        final var filter = new ReservationDetailSearchCriteriaDTO();
+        filter.setCustomerId(reservationDetailWriteDTO.getCustomerId());
+        final var details = search(filter, PageRequest.of(0, 10));
+        // TODO : Rsql ile database e new ve booking durumunda sorgu atılıp sonuç dönerse hata atılabilir.
+        details.forEach(reservationDetail -> {
+            if (!ReservationMaster.ReservationStatus.COMPLETED.equals(reservationDetail.getReservationMaster().getStatus())) {
+                throw new ServiceExecutionException(messageUtil.get("reservationDetail.customerAlreadyExistAnotherReservation.exception"));
+            }
+        });
     }
 }
