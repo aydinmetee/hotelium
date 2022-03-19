@@ -22,6 +22,7 @@ public class AccountTransactionSearchCriteriaDTO extends AccountTransactionReadD
         final var searchCriteriaOptions = new SearchCriteriaOptions<AccountTransaction>();
         searchCriteriaOptions.add(new SearchCriteria("id", filter.getId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("type", filter.getType(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("amount", filter.getAmount(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("source", filter.getSource(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("creDate", filter.getFirstDate(), SearchCriteria.SearchOperation.GREATER_THAN_EQUAL));
