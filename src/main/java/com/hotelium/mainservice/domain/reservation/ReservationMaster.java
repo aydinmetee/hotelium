@@ -49,6 +49,8 @@ public class ReservationMaster extends BaseEntity {
     private Date checkInDate;
     @Column(name = "check_out")
     private Date checkOutDate;
+    @Column(name = "reservation_date")
+    private Date reservationDate;
 
     public enum ReservationStatus {
         NEW,

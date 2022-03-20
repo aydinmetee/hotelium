@@ -6,6 +6,8 @@ import com.hotelium.mainservice.dto.RoomWriteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -28,6 +30,8 @@ public interface RoomService {
     Room markAsDirt(String id);
 
     Room markAsClean(String id);
+
+    List<Room> find(String rsqlQueryString);
 
     //TODO:STATU DEGISIMI ICIN MARK AS FONKSIYONLARI EKLENECEK.
 }
