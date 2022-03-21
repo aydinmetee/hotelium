@@ -1,9 +1,6 @@
 package com.hotelium.mainservice.serviceview.reservation;
 
-import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterReadDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterWriteDTO;
+import com.hotelium.mainservice.dto.reservation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,7 +23,7 @@ public interface ReservationMasterServiceView {
 
     ReservationMasterReadDTO markAsComplete(String id);
 
-    List<ReservationMasterReadDTO> getWeeklyReservations();
+    List<ResarvationTransactionReadDTO> getWeeklyReservations(ResarvationPeriod resarvationPeriod);
 
     ReservationMasterReadDTO markAsCancelled(String id);
 

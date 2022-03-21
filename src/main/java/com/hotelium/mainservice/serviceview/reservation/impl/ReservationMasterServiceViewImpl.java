@@ -1,11 +1,10 @@
 package com.hotelium.mainservice.serviceview.reservation.impl;
 
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
-import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterReadDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
-import com.hotelium.mainservice.dto.reservation.ReservationMasterWriteDTO;
+import com.hotelium.mainservice.domain.reservation.ReservationTransaction;
+import com.hotelium.mainservice.dto.reservation.*;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
+import com.hotelium.mainservice.service.reservation.ReservationTransactionService;
 import com.hotelium.mainservice.serviceview.reservation.ReservationMasterServiceView;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 public class ReservationMasterServiceViewImpl implements ReservationMasterServiceView {
     private final ReservationMasterService reservationMasterService;
     private final ModelMapper modelMapper;
+    private final ReservationTransactionService reservationTransactionService;
 
     @Override
     public ReservationMasterReadDTO create(ReservationMasterWriteDTO reservationMasterWriteDTO) {
@@ -58,8 +58,8 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
     }
 
     @Override
-    public List<ReservationMasterReadDTO> getWeeklyReservations() {
-        return reservationMasterService.getWeeklyReservations().stream().map(this::convertToDto)
+    public List<ResarvationTransactionReadDTO> getWeeklyReservations(ResarvationPeriod resarvationPeriod) {
+        return reservationTransactionService.getResarvationTransaction(resarvationPeriod).stream().map(this::convertTransactionDTO)
                 .collect(Collectors.toList());
     }
 
@@ -79,6 +79,14 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
             readDTO.setRoomCode(reservationMaster.getRoom().getCode());
             readDTO.setRoomId(reservationMaster.getRoom().getId());
         }
+        return readDTO;
+    }
+
+    private ResarvationTransactionReadDTO convertTransactionDTO(ReservationTransaction reservationTransaction) {
+        final var readDTO = new ResarvationTransactionReadDTO();
+        readDTO.setId(reservationTransaction.getId());
+        readDTO.setRoomCode(reservationTransaction.getReservationMaster().getRoom().getCode());
+        readDTO.setResarvationDate(reservationTransaction.getReservationDate());
         return readDTO;
     }
 }

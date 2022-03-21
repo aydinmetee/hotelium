@@ -32,9 +32,9 @@ public class ReservationController {
         return ResponseEntity.ok(reservationMasterServiceView.getById(masterId));
     }
 
-    @GetMapping("/get-weekly-reservations")
-    public ResponseEntity<List<ReservationMasterReadDTO>> getWeeklyReservations() {
-        return ResponseEntity.ok(reservationMasterServiceView.getWeeklyReservations());
+    @GetMapping("/get-weekly-reservations/{period}")
+    public ResponseEntity<List<ResarvationTransactionReadDTO>> getWeeklyReservations(@PathVariable("period") ResarvationPeriod period) {
+        return ResponseEntity.ok(reservationMasterServiceView.getWeeklyReservations(period));
     }
 
     @DeleteMapping("/{masterId}")
