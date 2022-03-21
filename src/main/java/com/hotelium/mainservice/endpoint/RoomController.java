@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -60,5 +62,11 @@ public class RoomController {
     @ApiOperation(value = "Mark as clean", response = RoomReadDTO.class)
     public ResponseEntity<RoomReadDTO> markAsClean(@PathVariable("roomId") String roomId) {
         return ResponseEntity.ok(roomServiceView.markAsClean(roomId));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/find")
+    @ResponseBody
+    public ResponseEntity<List<RoomReadDTO>> find(@RequestParam(value = "search") String search) {
+        return ResponseEntity.ok(roomServiceView.find(search));
     }
 }

@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -50,6 +53,11 @@ public class RoomServiceViewImpl implements RoomServiceView {
     @Override
     public RoomReadDTO markAsClean(String id) {
         return convertToDTO(roomService.markAsClean(id));
+    }
+
+    @Override
+    public List<RoomReadDTO> find(String rsqlQueryString) {
+        return roomService.find(rsqlQueryString).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     private RoomReadDTO convertToDTO(Room room) {

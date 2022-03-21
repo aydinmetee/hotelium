@@ -1,10 +1,11 @@
 package com.hotelium.mainservice.repository.reservation;
 
-import com.hotelium.mainservice.domain.Room;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,4 +15,5 @@ import java.util.Optional;
 public interface ReservationMasterRepository extends JpaRepository<ReservationMaster, String>, JpaSpecificationExecutor<ReservationMaster> {
     Optional<ReservationMaster> findByIdAndOrgId(String id, String orgId);
 
+    List<ReservationMaster> findReservationMastersByReservationDateBetweenAndOrgId(Date toDate, Date fromDate, String orgId);
 }

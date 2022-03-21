@@ -14,6 +14,7 @@ import com.hotelium.mainservice.service.AccountTransactionService;
 import com.hotelium.mainservice.service.RoomService;
 import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
+import com.hotelium.mainservice.util.DateUtil;
 import com.hotelium.mainservice.util.MessageUtil;
 import com.hotelium.mainservice.util.SessionContext;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,7 +51,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         if (Objects.isNull(room)) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
         }
-        checkRoomStatus(room);
+        checkReservationDateIsAvailable(reservationMasterWriteDTO);
         roomService.markAsReserved(room.getId());
         final var master = modelMapper.map(reservationMasterWriteDTO, ReservationMaster.class);
         master.setStatus(ReservationMaster.ReservationStatus.NEW);
@@ -83,7 +85,11 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     @Override
     public ReservationMaster markAsBooking(ReservationBookingDTO reservationBookingDTO) {
         final var reservationMaster = getById(reservationBookingDTO.getMasterId());
-        reservationMaster.setCheckInDate(new Date());
+        if (DateUtil.isDateAfter(reservationMaster.getReservationDate(),
+                reservationBookingDTO.getCheckInDate(), 0L)) {
+            throw new ServiceExecutionException("Giriş tarihi reservasyon tarihinden önce");
+        }
+        reservationMaster.setCheckInDate(reservationBookingDTO.getCheckInDate());
         checkHasMasterGotDetail(reservationMaster);
         final var accountTransaction = new AccountTransactionWriteDTO();
         accountTransaction.setAmount(reservationBookingDTO.getAmount());
@@ -105,6 +111,13 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         return reservationMasterRepository.save(reservationMaster);
     }
 
+    @Override
+    public List<ReservationMaster> getWeeklyReservations() {
+        return reservationMasterRepository
+                .findReservationMastersByReservationDateBetweenAndOrgId(DateUtil.startOfDay(new Date()), DateUtil.daysCalculator(new Date(), 7L),
+                        SessionContext.getSessionData().getOrgId());
+    }
+
     private void checkRoomStatus(Room room) {
         if (!Room.RoomStatus.CLEAN.equals(room.getStatus())) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomStatus.exception"));
@@ -117,6 +130,21 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         final var details = reservationDetailService.search(detailFilter, PageRequest.of(0, 1));
         if (!details.hasContent()) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.detailNotFound.exception"));
+        }
+    }
+
+    private void checkReservationDateIsAvailable(ReservationMasterWriteDTO reservationMasterWriteDTO) {
+        final var masters = reservationMasterRepository
+                .findReservationMastersByReservationDateBetweenAndOrgId(
+                        DateUtil.startOfDay(reservationMasterWriteDTO.getReservationDate()),
+                        DateUtil.endOfDay(reservationMasterWriteDTO.getReservationDate()),
+                        SessionContext.getSessionData().getOrgId());
+        if (!masters.isEmpty()) {
+            masters.forEach(reservationMaster -> {
+                if (!ReservationMaster.ReservationStatus.COMPLETED.equals(reservationMaster.getStatus())) {
+                    throw new ServiceExecutionException("Seçtiğiniz tarihte oda müsait değil.");
+                }
+            });
         }
     }
 

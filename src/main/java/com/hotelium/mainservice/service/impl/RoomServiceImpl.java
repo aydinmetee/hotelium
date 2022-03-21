@@ -6,13 +6,19 @@ import com.hotelium.mainservice.dto.RoomWriteDTO;
 import com.hotelium.mainservice.exception.ServiceExecutionException;
 import com.hotelium.mainservice.repository.RoomRepository;
 import com.hotelium.mainservice.service.RoomService;
+import com.hotelium.mainservice.util.CustomRsqlVisitor;
 import com.hotelium.mainservice.util.MessageUtil;
 import com.hotelium.mainservice.util.SessionContext;
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.Node;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Mete Aydin
@@ -87,5 +93,13 @@ public class RoomServiceImpl implements RoomService {
         final var roomDb = getById(id);
         roomDb.setStatus(Room.RoomStatus.CLEAN);
         return roomRepository.save(roomDb);
+    }
+
+    @Override
+    public List<Room> find(String rsqlQueryString) {
+        Node rootNode = new RSQLParser().parse(rsqlQueryString);
+        Specification<Room> spec = rootNode.accept(new CustomRsqlVisitor<Room>());
+        return roomRepository.findAll(spec);
+
     }
 }

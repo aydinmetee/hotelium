@@ -7,6 +7,8 @@ import com.hotelium.mainservice.dto.reservation.ReservationMasterWriteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -23,5 +25,7 @@ public interface ReservationMasterServiceView {
     ReservationMasterReadDTO markAsBooking(ReservationBookingDTO reservationBookingDTO);
 
     ReservationMasterReadDTO markAsComplete(String id);
+
+    List<ReservationMasterReadDTO> getWeeklyReservations();
 
 }

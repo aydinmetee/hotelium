@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author Mete Aydin
@@ -16,4 +17,5 @@ public class ReservationBookingDTO {
     private String masterId;
     private BigDecimal amount;
     private AccountTransaction.TransactionSource source;
+    private Date checkInDate;
 }

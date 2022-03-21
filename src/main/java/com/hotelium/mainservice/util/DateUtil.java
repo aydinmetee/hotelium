@@ -14,7 +14,6 @@ import java.util.Locale;
  * @date 24.10.2021
  */
 
-
 public final class DateUtil {
     public static final String FORMAT_1 = "dd-MM-yyyy hh:mm:ss";
     public static final String FORMAT_2 = "dd-MM-yyyy";
@@ -177,6 +176,13 @@ public final class DateUtil {
 
     public static LocalDate convertToLocalDate(Date dateToConvert) {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
+    }
+
+    public static Date daysCalculator(Date date, Long day) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, day.intValue());
+        return cal.getTime();
     }
 
     public enum DateModifyType {

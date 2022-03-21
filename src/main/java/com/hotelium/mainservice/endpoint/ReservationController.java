@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -42,6 +44,11 @@ public class ReservationController {
     @GetMapping("/{masterId}")
     public ResponseEntity<ReservationMasterReadDTO> getById(@PathVariable("masterId") String masterId) {
         return ResponseEntity.ok(reservationMasterServiceView.getById(masterId));
+    }
+
+    @GetMapping("/get-weekly-reservations")
+    public ResponseEntity<List<ReservationMasterReadDTO>> getWeeklyReservations() {
+        return ResponseEntity.ok(reservationMasterServiceView.getWeeklyReservations());
     }
 
     @DeleteMapping("/{masterId}")

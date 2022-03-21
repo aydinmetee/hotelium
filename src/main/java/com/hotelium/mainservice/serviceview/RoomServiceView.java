@@ -6,6 +6,8 @@ import com.hotelium.mainservice.dto.RoomWriteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -22,5 +24,7 @@ public interface RoomServiceView {
     Page<RoomReadDTO> search(RoomSearchCriteriaDTO filter, Pageable pageable);
 
     RoomReadDTO markAsClean(String id);
+
+    List<RoomReadDTO> find(String rsqlQueryString);
 
 }

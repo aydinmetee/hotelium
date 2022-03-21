@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class ComboController {
     @PostMapping("/rooms")
     @ApiOperation(value = "Rooms Combo", response = Page.class)
     public ResponseEntity<List<KeyValue>> rooms(@RequestBody() RoomSearchCriteriaDTO filter) {
-        final var pagingResult = roomServiceView.search(filter, PageRequest.of(0, 1000));
+        final var pagingResult = roomServiceView.search(filter, PageRequest.of(0, 1000, Sort.by(Sort.Order.asc("code"))));
         List<KeyValue> keyValues = new ArrayList<>();
         if (pagingResult.hasContent()) {
             pagingResult.getContent().forEach(roomReadDTO -> keyValues.add(new KeyValue(roomReadDTO.getCode(), roomReadDTO.getId())));

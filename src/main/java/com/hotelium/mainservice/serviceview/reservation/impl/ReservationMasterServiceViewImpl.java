@@ -13,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Mete Aydin
@@ -53,6 +55,12 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
     @Override
     public ReservationMasterReadDTO markAsComplete(String id) {
         return convertToDto(reservationMasterService.markAsComplete(id));
+    }
+
+    @Override
+    public List<ReservationMasterReadDTO> getWeeklyReservations() {
+        return reservationMasterService.getWeeklyReservations().stream().map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     private ReservationMasterReadDTO convertToDto(ReservationMaster reservationMaster) {
