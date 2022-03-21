@@ -24,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -118,6 +119,16 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
                         SessionContext.getSessionData().getOrgId());
     }
 
+    @Override
+    @Transactional
+    public ReservationMaster markAsCancelled(String id) {
+        final var reservationMaster = getById(id);
+        checkReservationStatusForCancel(reservationMaster);
+        reservationMaster.setStatus(ReservationMaster.ReservationStatus.CANCELLED);
+        roomService.markAsClean(reservationMaster.getRoom().getId());
+        return reservationMasterRepository.save(reservationMaster);
+    }
+
     private void checkRoomStatus(Room room) {
         if (!Room.RoomStatus.CLEAN.equals(room.getStatus())) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomStatus.exception"));
@@ -145,6 +156,12 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
                     throw new ServiceExecutionException("Seçtiğiniz tarihte oda müsait değil.");
                 }
             });
+        }
+    }
+
+    private void checkReservationStatusForCancel(ReservationMaster reservationMaster) {
+        if (!ReservationMaster.ReservationStatus.NEW.equals(reservationMaster.getStatus())) {
+            throw new ServiceExecutionException("Yapmak istediğiniz işlem için rezervasyonun durumu uygun değil.");
         }
     }
 

@@ -28,4 +28,6 @@ public interface ReservationMasterService {
 
     List<ReservationMaster> getWeeklyReservations();
 
+    ReservationMaster markAsCancelled(String id);
+
 }

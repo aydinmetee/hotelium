@@ -28,4 +28,6 @@ public interface ReservationMasterServiceView {
 
     List<ReservationMasterReadDTO> getWeeklyReservations();
 
+    ReservationMasterReadDTO markAsCancelled(String id);
+
 }

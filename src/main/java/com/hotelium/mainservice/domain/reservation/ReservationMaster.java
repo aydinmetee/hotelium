@@ -55,6 +55,7 @@ public class ReservationMaster extends BaseEntity {
     public enum ReservationStatus {
         NEW,
         BOOKING,
-        COMPLETED
+        COMPLETED,
+        CANCELLED
     }
 }

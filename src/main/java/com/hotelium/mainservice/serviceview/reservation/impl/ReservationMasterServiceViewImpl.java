@@ -63,6 +63,11 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ReservationMasterReadDTO markAsCancelled(String id) {
+        return convertToDto(reservationMasterService.markAsCancelled(id));
+    }
+
     private ReservationMasterReadDTO convertToDto(ReservationMaster reservationMaster) {
         final var readDTO = modelMapper.map(reservationMaster, ReservationMasterReadDTO.class);
         if (Objects.nonNull(reservationMaster.getAccountTransaction())) {
