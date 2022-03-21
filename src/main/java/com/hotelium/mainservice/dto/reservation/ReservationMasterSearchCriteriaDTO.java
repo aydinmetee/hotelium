@@ -6,6 +6,8 @@ import com.hotelium.mainservice.util.SearchCriteriaOptions;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -13,6 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO {
+    private Date firstDate;
+    private Date lastDate;
     public SearchCriteriaOptions<ReservationMaster> ReservationMasterSearchCriteriaFieldMapper(ReservationMasterSearchCriteriaDTO filter) {
         final var searchCriteriaOptions = new SearchCriteriaOptions<ReservationMaster>();
         searchCriteriaOptions.add(new SearchCriteria("id", filter.getId(), SearchCriteria.SearchOperation.EQUAL));
@@ -28,6 +32,8 @@ public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO
         searchCriteriaOptions.add(new SearchCriteria("orgId",filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("creUser",filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("updUser",filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.GREATER_THAN_EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.LESS_THAN_EQUAL));
 
         return searchCriteriaOptions;
     }

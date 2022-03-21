@@ -51,7 +51,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         if (Objects.isNull(room)) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
         }
-        checkRoomStatus(room);
+        checkReservationDateIsAvailable(reservationMasterWriteDTO);
         roomService.markAsReserved(room.getId());
         final var master = modelMapper.map(reservationMasterWriteDTO, ReservationMaster.class);
         master.setStatus(ReservationMaster.ReservationStatus.NEW);
@@ -114,7 +114,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     @Override
     public List<ReservationMaster> getWeeklyReservations() {
         return reservationMasterRepository
-                .findReservationMastersByReservationDateBetweenAndOrgId(new Date(), DateUtil.daysCalculator(new Date(), 7L),
+                .findReservationMastersByReservationDateBetweenAndOrgId(DateUtil.startOfDay(new Date()), DateUtil.daysCalculator(new Date(), 7L),
                         SessionContext.getSessionData().getOrgId());
     }
 
@@ -130,6 +130,21 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         final var details = reservationDetailService.search(detailFilter, PageRequest.of(0, 1));
         if (!details.hasContent()) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.detailNotFound.exception"));
+        }
+    }
+
+    private void checkReservationDateIsAvailable(ReservationMasterWriteDTO reservationMasterWriteDTO) {
+        final var masters = reservationMasterRepository
+                .findReservationMastersByReservationDateBetweenAndOrgId(
+                        DateUtil.startOfDay(reservationMasterWriteDTO.getReservationDate()),
+                        DateUtil.endOfDay(reservationMasterWriteDTO.getReservationDate()),
+                        SessionContext.getSessionData().getOrgId());
+        if (!masters.isEmpty()) {
+            masters.forEach(reservationMaster -> {
+                if (!ReservationMaster.ReservationStatus.COMPLETED.equals(reservationMaster.getStatus())) {
+                    throw new ServiceExecutionException("Seçtiğiniz tarihte oda müsait değil.");
+                }
+            });
         }
     }
 
