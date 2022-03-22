@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
@@ -51,6 +52,9 @@ public class BaseEntity implements Serializable {
     @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updDate;
+    @Column(name = "valid")
+    @Type(type = "yes_no")
+    private Boolean valid;
 
 
     @PrePersist
@@ -58,6 +62,7 @@ public class BaseEntity implements Serializable {
         setId(IdGenerator.getUUID());
         setOrgId(SessionContext.getSessionData().getOrgId());
         setCreUser(SessionContext.getSessionData().getUserId());
+        setValid(Boolean.TRUE);
         this.creDate = new Date();
     }
 

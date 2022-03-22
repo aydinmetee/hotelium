@@ -26,6 +26,6 @@ public interface ReservationMasterService {
 
     ReservationMaster markAsComplete(String id);
 
-    List<ReservationMaster> getWeeklyReservations();
+    ReservationMaster markAsCancelled(String id);
 
 }

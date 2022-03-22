@@ -15,4 +15,5 @@ public class RoomWriteDTO {
     @NotBlank
     private String code;
     private Long capacity;
+    private Boolean valid;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +34,6 @@ public class Room extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
-
 
     public enum RoomStatus {
         CLEAN,

@@ -15,5 +15,6 @@ import java.util.Optional;
 public interface ReservationMasterRepository extends JpaRepository<ReservationMaster, String>, JpaSpecificationExecutor<ReservationMaster> {
     Optional<ReservationMaster> findByIdAndOrgId(String id, String orgId);
 
-    List<ReservationMaster> findReservationMastersByReservationDateBetweenAndOrgId(Date toDate, Date fromDate, String orgId);
+    List<ReservationMaster> findReservationMastersByReservationDateBetweenAndOrgId(Date toDate, Date fromDate,
+                                                                                   String orgId);
 }

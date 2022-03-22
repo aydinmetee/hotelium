@@ -17,6 +17,7 @@ import java.util.Date;
 public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO {
     private Date firstDate;
     private Date lastDate;
+
     public SearchCriteriaOptions<ReservationMaster> ReservationMasterSearchCriteriaFieldMapper(ReservationMasterSearchCriteriaDTO filter) {
         final var searchCriteriaOptions = new SearchCriteriaOptions<ReservationMaster>();
         searchCriteriaOptions.add(new SearchCriteria("id", filter.getId(), SearchCriteria.SearchOperation.EQUAL));
@@ -29,11 +30,12 @@ public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("accountTransaction/amount", filter.getBookAmount(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("accountTransaction/source", filter.getSource(), SearchCriteria.SearchOperation.EQUAL));
-        searchCriteriaOptions.add(new SearchCriteria("orgId",filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
-        searchCriteriaOptions.add(new SearchCriteria("creUser",filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
-        searchCriteriaOptions.add(new SearchCriteria("updUser",filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("orgId", filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("creUser", filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("updUser", filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.GREATER_THAN_EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.LESS_THAN_EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("duration", filter.getDuration(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

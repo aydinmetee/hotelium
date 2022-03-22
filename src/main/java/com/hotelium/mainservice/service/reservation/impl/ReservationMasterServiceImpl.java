@@ -1,8 +1,8 @@
 package com.hotelium.mainservice.service.reservation.impl;
 
 import com.hotelium.mainservice.domain.AccountTransaction;
-import com.hotelium.mainservice.domain.Room;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
+import com.hotelium.mainservice.domain.reservation.ReservationTransaction;
 import com.hotelium.mainservice.dto.account.AccountTransactionWriteDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
@@ -14,6 +14,7 @@ import com.hotelium.mainservice.service.AccountTransactionService;
 import com.hotelium.mainservice.service.RoomService;
 import com.hotelium.mainservice.service.reservation.ReservationDetailService;
 import com.hotelium.mainservice.service.reservation.ReservationMasterService;
+import com.hotelium.mainservice.service.reservation.ReservationTransactionService;
 import com.hotelium.mainservice.util.DateUtil;
 import com.hotelium.mainservice.util.MessageUtil;
 import com.hotelium.mainservice.util.SessionContext;
@@ -24,7 +25,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -40,23 +43,27 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     private final ReservationMasterRepository reservationMasterRepository;
     @Lazy
     private final ReservationDetailService reservationDetailService;
+    private final ReservationTransactionService reservationTransactionService;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
     private final AccountTransactionService accountTransactionService;
     private final MessageUtil messageUtil;
 
     @Override
+    @Transactional
     public ReservationMaster create(ReservationMasterWriteDTO reservationMasterWriteDTO) {
         final var room = roomService.getById(reservationMasterWriteDTO.getRoomId());
         if (Objects.isNull(room)) {
             throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomNotFound.exception"));
         }
-        checkReservationDateIsAvailable(reservationMasterWriteDTO);
+        reservationTransactionService.checkRoomAvailability(reservationMasterWriteDTO);
         roomService.markAsReserved(room.getId());
         final var master = modelMapper.map(reservationMasterWriteDTO, ReservationMaster.class);
         master.setStatus(ReservationMaster.ReservationStatus.NEW);
         master.setRoom(room);
-        return reservationMasterRepository.save(master);
+        final var masterDB = reservationMasterRepository.save(master);
+        reservationTransactionService.createAll(masterDB);
+        return masterDB;
     }
 
     @Override
@@ -92,7 +99,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         reservationMaster.setCheckInDate(reservationBookingDTO.getCheckInDate());
         checkHasMasterGotDetail(reservationMaster);
         final var accountTransaction = new AccountTransactionWriteDTO();
-        accountTransaction.setAmount(reservationBookingDTO.getAmount());
+        accountTransaction.setAmount(reservationBookingDTO.getAmount().multiply(BigDecimal.valueOf(reservationMaster.getDuration())));
         accountTransaction.setSource(reservationBookingDTO.getSource());
         accountTransaction.setType(AccountTransaction.TransactionType.INCOME);
         accountTransaction.setDescription(reservationMaster.getRoom().getCode() + " KONAKLAMA BEDELİ");
@@ -103,25 +110,28 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
     }
 
     @Override
+    @Transactional
     public ReservationMaster markAsComplete(String id) {
         final var reservationMaster = getById(id);
         reservationMaster.setStatus(ReservationMaster.ReservationStatus.COMPLETED);
-        reservationMaster.setCheckOutDate(new Date());
+        reservationMaster.setCheckOutDate(DateUtil.daysCalculator(reservationMaster.getReservationDate(),
+                reservationMaster.getDuration()));
         roomService.markAsDirt(reservationMaster.getRoom().getId());
-        return reservationMasterRepository.save(reservationMaster);
+        final var resarvationDB = reservationMasterRepository.save(reservationMaster);
+        reservationTransactionService.clearAll(resarvationDB);
+        return resarvationDB;
     }
 
     @Override
-    public List<ReservationMaster> getWeeklyReservations() {
-        return reservationMasterRepository
-                .findReservationMastersByReservationDateBetweenAndOrgId(DateUtil.startOfDay(new Date()), DateUtil.daysCalculator(new Date(), 7L),
-                        SessionContext.getSessionData().getOrgId());
-    }
-
-    private void checkRoomStatus(Room room) {
-        if (!Room.RoomStatus.CLEAN.equals(room.getStatus())) {
-            throw new ServiceExecutionException(messageUtil.get("reservationMaster.roomStatus.exception"));
-        }
+    @Transactional
+    public ReservationMaster markAsCancelled(String id) {
+        final var reservationMaster = getById(id);
+        checkReservationStatusForCancel(reservationMaster);
+        reservationMaster.setStatus(ReservationMaster.ReservationStatus.CANCELLED);
+        roomService.markAsClean(reservationMaster.getRoom().getId());
+        final var resarvationDB = reservationMasterRepository.save(reservationMaster);
+        reservationTransactionService.clearAll(resarvationDB);
+        return resarvationDB;
     }
 
     private void checkHasMasterGotDetail(ReservationMaster reservationMaster) {
@@ -133,18 +143,10 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         }
     }
 
-    private void checkReservationDateIsAvailable(ReservationMasterWriteDTO reservationMasterWriteDTO) {
-        final var masters = reservationMasterRepository
-                .findReservationMastersByReservationDateBetweenAndOrgId(
-                        DateUtil.startOfDay(reservationMasterWriteDTO.getReservationDate()),
-                        DateUtil.endOfDay(reservationMasterWriteDTO.getReservationDate()),
-                        SessionContext.getSessionData().getOrgId());
-        if (!masters.isEmpty()) {
-            masters.forEach(reservationMaster -> {
-                if (!ReservationMaster.ReservationStatus.COMPLETED.equals(reservationMaster.getStatus())) {
-                    throw new ServiceExecutionException("Seçtiğiniz tarihte oda müsait değil.");
-                }
-            });
+
+    private void checkReservationStatusForCancel(ReservationMaster reservationMaster) {
+        if (!ReservationMaster.ReservationStatus.NEW.equals(reservationMaster.getStatus())) {
+            throw new ServiceExecutionException("Yapmak istediğiniz işlem için rezervasyonun durumu uygun değil.");
         }
     }
 

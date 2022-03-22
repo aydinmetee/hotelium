@@ -15,5 +15,5 @@ public class ReservationMasterWriteDTO {
     private String roomId;
     private String description;
     private Date reservationDate;
-
+    private Long duration;
 }
