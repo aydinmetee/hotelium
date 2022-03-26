@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @author Mete Aydin
  * @since 23.10.2021
@@ -24,8 +26,7 @@ public class AccountTransactionServiceViewImpl implements AccountTransactionServ
 
     @Override
     public AccountTransactionReadDTO createExpense(AccountTransactionWriteDTO accountTransactionWriteDTO) {
-        accountTransactionWriteDTO.setType(AccountTransaction.TransactionType.EXPENSE);
-        return convertToDto(accountTransactionService.create(accountTransactionWriteDTO));
+        return convertToDto(accountTransactionService.createExpense(accountTransactionWriteDTO));
     }
 
     @Override
@@ -49,6 +50,10 @@ public class AccountTransactionServiceViewImpl implements AccountTransactionServ
     }
 
     private AccountTransactionReadDTO convertToDto(AccountTransaction accountTransaction) {
-        return modelMapper.map(accountTransaction, AccountTransactionReadDTO.class);
+        final var readDTO = modelMapper.map(accountTransaction, AccountTransactionReadDTO.class);
+        if (Objects.nonNull(accountTransaction.getReservationMaster())) {
+            readDTO.setReservationMasterId(accountTransaction.getReservationMaster().getId());
+        }
+        return readDTO;
     }
 }

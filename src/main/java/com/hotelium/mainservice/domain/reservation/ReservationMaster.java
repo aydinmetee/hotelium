@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -42,9 +44,6 @@ public class ReservationMaster extends BaseEntity {
     private ReservationStatus status;
     @Column(name = "description")
     private String description;
-    @JoinColumn(name = "transaction_id")
-    @OneToOne(fetch = FetchType.LAZY)
-    private AccountTransaction accountTransaction;
     @Column(name = "check_in")
     private Date checkInDate;
     @Column(name = "check_out")
@@ -53,6 +52,11 @@ public class ReservationMaster extends BaseEntity {
     private Date reservationDate;
     @Column(name = "duration")
     private Long duration;
+    @Column(name = "dailyAmount")
+    private BigDecimal dailyAmount;
+    @Column(name = "is_payed")
+    @Type(type = "yes_no")
+    private Boolean isPayed;
 
     public enum ReservationStatus {
         NEW,

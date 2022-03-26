@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
  * @since 23.10.2021
  */
 public interface AccountTransactionService {
-    AccountTransaction create(AccountTransactionWriteDTO accountTransactionWriteDTO);
+    AccountTransaction createIncome(AccountTransactionWriteDTO accountTransactionWriteDTO);
+
+    AccountTransaction createExpense(AccountTransactionWriteDTO accountTransactionWriteDTO);
 
     AccountTransaction getById(String id);
 
@@ -21,4 +23,8 @@ public interface AccountTransactionService {
     Page<AccountTransaction> search(AccountTransactionSearchCriteriaDTO filter, Pageable pageable);
 
     AccountTransaction updateTransactionSource(AccountTransactionSourceUpdateDTO updateDTO);
+
+    Boolean checkPayment(String reservationMasterId);
+
+    void deleteForReservation(String resarvationMasterId);
 }

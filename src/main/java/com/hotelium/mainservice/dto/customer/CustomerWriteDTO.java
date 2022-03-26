@@ -14,4 +14,5 @@ public class CustomerWriteDTO {
     private String lastname;
     private String legalId;
     private String phone;
+    private Boolean valid;
 }

@@ -4,10 +4,9 @@ import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import com.hotelium.mainservice.dto.reservation.ReservationBookingDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationMasterWriteDTO;
+import com.hotelium.mainservice.dto.reservation.ReservationPaymentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * @author Mete Aydin
@@ -27,5 +26,7 @@ public interface ReservationMasterService {
     ReservationMaster markAsComplete(String id);
 
     ReservationMaster markAsCancelled(String id);
+
+    ReservationMaster getPayment(ReservationPaymentDTO reservationPaymentDTO);
 
 }

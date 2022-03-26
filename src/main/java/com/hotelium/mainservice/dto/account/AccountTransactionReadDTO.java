@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.dto.account;
 
+import com.hotelium.mainservice.domain.AccountTransaction;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,4 +19,5 @@ public class AccountTransactionReadDTO extends AccountTransactionWriteDTO {
     private String creUser;
     private Date updDate;
     private String updUser;
+    private AccountTransaction.TransactionType type;
 }

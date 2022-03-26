@@ -12,4 +12,11 @@ import java.io.Serializable;
 public class KeyValue implements Serializable {
     private String key;
     private String value;
+    private String additionalData;
+
+    public KeyValue(String key, String value) {
+        this.setKey(key);
+        this.setValue(value);
+        this.setAdditionalData("");
+    }
 }

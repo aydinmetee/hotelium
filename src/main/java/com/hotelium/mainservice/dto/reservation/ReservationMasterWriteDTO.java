@@ -3,6 +3,7 @@ package com.hotelium.mainservice.dto.reservation;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,4 +17,5 @@ public class ReservationMasterWriteDTO {
     private String description;
     private Date reservationDate;
     private Long duration;
+    private BigDecimal dailyAmount;
 }
