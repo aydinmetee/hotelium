@@ -4,6 +4,7 @@ import com.hotelium.mainservice.domain.AccountTransaction;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -20,4 +21,7 @@ public class AccountTransactionReadDTO extends AccountTransactionWriteDTO {
     private Date updDate;
     private String updUser;
     private AccountTransaction.TransactionType type;
+    private Date reservationDate;
+    private Long duration;
+    private BigDecimal dailyAmount;
 }

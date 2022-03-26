@@ -143,6 +143,7 @@ public class ReservationMasterServiceImpl implements ReservationMasterService {
         accountTransaction.setDescription(reservationMaster.getRoom().getCode() + " KONAKLAMA BEDELİ");
         accountTransaction.setReservationMasterId(reservationPaymentDTO.getMasterId());
         accountTransaction.setSource(reservationPaymentDTO.getSource());
+        accountTransaction.setDraweeId(reservationPaymentDTO.getDraweeId());
         if (AccountTransaction.Drawee.PERSON.equals(reservationPaymentDTO.getDrawee())) {
             final var customer = customerService.getById(reservationPaymentDTO.getDraweeId());
             accountTransaction.setDrawee(AccountTransaction.Drawee.PERSON);

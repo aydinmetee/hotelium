@@ -22,4 +22,7 @@ public interface CustomerServiceView {
     Page<CustomerReadDTO> search(CustomerSearchCriteriaDTO filter, Pageable pageable);
 
     CustomerReadDTO assignCompany(String id, String companyId);
+
+    Page<CustomerReadDTO> searchForAutoComplete(CustomerSearchCriteriaDTO filter);
+
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -53,6 +55,9 @@ public class AccountTransactionServiceViewImpl implements AccountTransactionServ
         final var readDTO = modelMapper.map(accountTransaction, AccountTransactionReadDTO.class);
         if (Objects.nonNull(accountTransaction.getReservationMaster())) {
             readDTO.setReservationMasterId(accountTransaction.getReservationMaster().getId());
+            readDTO.setReservationDate(accountTransaction.getReservationMaster().getCheckInDate());
+            readDTO.setDuration(accountTransaction.getReservationMaster().getDuration());
+            readDTO.setDailyAmount(accountTransaction.getReservationMaster().getDailyAmount());
         }
         return readDTO;
     }

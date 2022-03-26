@@ -44,6 +44,8 @@ public class AccountTransaction extends BaseEntity {
     @Column(name = "drawee")
     @Enumerated(EnumType.STRING)
     private Drawee drawee;
+    @Column(name = "drawee_id")
+    private String draweeId;
 
     public enum TransactionType {
         INCOME,

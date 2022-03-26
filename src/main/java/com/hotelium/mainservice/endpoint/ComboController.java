@@ -1,6 +1,7 @@
 package com.hotelium.mainservice.endpoint;
 
 import com.hotelium.mainservice.dto.RoomSearchCriteriaDTO;
+import com.hotelium.mainservice.dto.account.DraweeComboDTO;
 import com.hotelium.mainservice.dto.customer.CompanySearchCriteriaDTO;
 import com.hotelium.mainservice.dto.customer.CustomerSearchCriteriaDTO;
 import com.hotelium.mainservice.dto.reservation.ReservationDetailSearchCriteriaDTO;
@@ -12,6 +13,7 @@ import com.hotelium.mainservice.util.KeyValue;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,6 +29,7 @@ import java.util.List;
 @RequestMapping("/combo")
 @RequiredArgsConstructor
 @Api(value = "/combo")
+@Slf4j
 public class ComboController {
     private final RoomServiceView roomServiceView;
     private final CompanyServiceView companyServiceView;
@@ -68,7 +71,7 @@ public class ComboController {
 
     @GetMapping("/drawee/{reservationMasterId}")
     @ApiOperation(value = "Company Combo", response = Page.class)
-    public ResponseEntity<List<KeyValue>> drawees(@PathVariable("reservationMasterId") String reservationMasterId) {
+    public ResponseEntity<List<KeyValue>> draweeForReservation(@PathVariable("reservationMasterId") String reservationMasterId) {
         final var filter = new ReservationDetailSearchCriteriaDTO();
         filter.setReservationMasterId(reservationMasterId);
         final var pagingResult = reservationDetailServiceView
@@ -87,6 +90,30 @@ public class ComboController {
                     }
                 }
             });
+        }
+        return new ResponseEntity<>(keyValues, HttpStatus.OK);
+    }
+
+    @PostMapping("/drawees")
+    @ApiOperation(value = "Drawees Combo", response = Page.class)
+    public ResponseEntity<List<KeyValue>> drawees(@RequestBody() DraweeComboDTO filter) {
+        final var customerFilter = new CustomerSearchCriteriaDTO();
+        customerFilter.setName(filter.getNameTitle());
+        customerFilter.setLastname(filter.getNameTitle());
+        List<KeyValue> keyValues = new ArrayList<>();
+
+        final var customerPagingResult = customerServiceView.searchForAutoComplete(customerFilter);
+        if (customerPagingResult.hasContent()) {
+            log.info("Customer Length : {}", customerPagingResult.getTotalElements());
+            customerPagingResult.getContent().forEach(customerReadDTO -> keyValues.add(
+                    new KeyValue(customerReadDTO.getName() + " " + customerReadDTO.getLastname(), customerReadDTO.getId())));
+        }
+        final var companyFilter = new CompanySearchCriteriaDTO();
+        companyFilter.setNameTitle(filter.getNameTitle());
+        final var companyPagingResult = companyServiceView.search(companyFilter,PageRequest.of(0,1000));
+        if (companyPagingResult.hasContent()) {
+            companyPagingResult.getContent().forEach(customerReadDTO -> keyValues.add(
+                    new KeyValue(customerReadDTO.getNameTitle() , customerReadDTO.getId())));
         }
         return new ResponseEntity<>(keyValues, HttpStatus.OK);
     }

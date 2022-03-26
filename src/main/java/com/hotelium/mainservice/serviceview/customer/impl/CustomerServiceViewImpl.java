@@ -54,6 +54,11 @@ public class CustomerServiceViewImpl implements CustomerServiceView {
         return convertToDTO(customerService.assignCompany(id, companyId));
     }
 
+    @Override
+    public Page<CustomerReadDTO> searchForAutoComplete(CustomerSearchCriteriaDTO filter) {
+        return customerService.searchForAutoComplete(filter).map(this::convertToDTO);
+    }
+
     private CustomerReadDTO convertToDTO(Customer customer) {
         final var customerReadDTO = modelMapper.map(customer, CustomerReadDTO.class);
         if (Objects.nonNull(customer.getCompany())) {

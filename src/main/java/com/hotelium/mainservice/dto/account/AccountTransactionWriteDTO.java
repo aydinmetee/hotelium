@@ -20,5 +20,6 @@ public class AccountTransactionWriteDTO {
     private AccountTransaction.Drawee drawee;
     private String legalId;
     private String nameTitle;
+    private String draweeId;
 
 }
