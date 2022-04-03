@@ -14,8 +14,12 @@ import java.math.BigDecimal;
 @Setter
 public class AccountTransactionWriteDTO {
     private BigDecimal amount;
-    private AccountTransaction.TransactionType type;
     private AccountTransaction.TransactionSource source;
     private String description;
+    private String reservationMasterId;
+    private AccountTransaction.Drawee drawee;
+    private String legalId;
+    private String nameTitle;
+    private String draweeId;
 
 }

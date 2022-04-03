@@ -27,4 +27,6 @@ public interface ReservationMasterServiceView {
 
     ReservationMasterReadDTO markAsCancelled(String id);
 
+    ReservationMasterReadDTO getPayment(ReservationPaymentDTO reservationPaymentDTO);
+
 }

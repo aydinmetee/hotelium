@@ -3,7 +3,6 @@ package com.hotelium.mainservice.dto.reservation;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,4 +21,7 @@ public class ReservationDetailReadDTO extends ReservationDetailWriteDTO {
     private String creUser;
     private Date updDate;
     private String updUser;
+    private String companyName;
+    private String companyId;
+    private String companyLegalNo;
 }

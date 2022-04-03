@@ -22,20 +22,18 @@ public class ReservationMasterSearchCriteriaDTO extends ReservationMasterReadDTO
         final var searchCriteriaOptions = new SearchCriteriaOptions<ReservationMaster>();
         searchCriteriaOptions.add(new SearchCriteria("id", filter.getId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("status", filter.getStatus(), SearchCriteria.SearchOperation.EQUAL));
-        searchCriteriaOptions.add(new SearchCriteria("accountTransaction/id", filter.getAccountTransactionId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("room/id", filter.getRoomId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("room/code", filter.getRoomCode(), SearchCriteria.SearchOperation.LIKE));
         searchCriteriaOptions.add(new SearchCriteria("checkInDate", filter.getCheckInDate(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("checkOutDate", filter.getCheckOutDate(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("description", filter.getDescription(), SearchCriteria.SearchOperation.LIKE));
-        searchCriteriaOptions.add(new SearchCriteria("accountTransaction/amount", filter.getBookAmount(), SearchCriteria.SearchOperation.EQUAL));
-        searchCriteriaOptions.add(new SearchCriteria("accountTransaction/source", filter.getSource(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("orgId", filter.getOrgId(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("creUser", filter.getCreUser(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("updUser", filter.getUpdUser(), SearchCriteria.SearchOperation.EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.GREATER_THAN_EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("reservationDate", filter.getReservationDate(), SearchCriteria.SearchOperation.LESS_THAN_EQUAL));
         searchCriteriaOptions.add(new SearchCriteria("duration", filter.getDuration(), SearchCriteria.SearchOperation.EQUAL));
+        searchCriteriaOptions.add(new SearchCriteria("dailyAmount", filter.getDailyAmount(), SearchCriteria.SearchOperation.EQUAL));
 
         return searchCriteriaOptions;
     }

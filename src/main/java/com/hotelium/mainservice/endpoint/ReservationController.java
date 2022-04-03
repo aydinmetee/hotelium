@@ -87,4 +87,11 @@ public class ReservationController {
     public ResponseEntity<ReservationMasterReadDTO> markAsCancelled(@PathVariable("masterId") String masterId) {
         return ResponseEntity.ok(reservationMasterServiceView.markAsCancelled(masterId));
     }
+
+    @PostMapping("/{masterId}/get-payment")
+    public ResponseEntity<ReservationMasterReadDTO> getPayment(@RequestBody ReservationPaymentDTO reservationPaymentDTO,
+                                                               @PathVariable("masterId") String masterId) {
+        reservationPaymentDTO.setMasterId(masterId);
+        return ResponseEntity.ok(reservationMasterServiceView.getPayment(reservationPaymentDTO));
+    }
 }

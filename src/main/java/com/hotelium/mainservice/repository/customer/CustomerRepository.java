@@ -1,10 +1,12 @@
 package com.hotelium.mainservice.repository.customer;
 
 import com.hotelium.mainservice.domain.customer.Customer;
-import com.hotelium.mainservice.domain.reservation.ReservationMaster;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,4 +16,5 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, String>, JpaSpecificationExecutor<Customer> {
     Optional<Customer> findByIdAndOrgId(String id, String orgId);
 
+    Page<Customer> getCustomersByNameContainsOrLastnameContainsAndOrgId(String name, String lastName, String orgId, Pageable pageable);
 }

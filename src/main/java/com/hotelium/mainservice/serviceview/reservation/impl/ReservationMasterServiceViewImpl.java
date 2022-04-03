@@ -68,13 +68,13 @@ public class ReservationMasterServiceViewImpl implements ReservationMasterServic
         return convertToDto(reservationMasterService.markAsCancelled(id));
     }
 
+    @Override
+    public ReservationMasterReadDTO getPayment(ReservationPaymentDTO reservationPaymentDTO) {
+        return convertToDto(reservationMasterService.getPayment(reservationPaymentDTO));
+    }
+
     private ReservationMasterReadDTO convertToDto(ReservationMaster reservationMaster) {
         final var readDTO = modelMapper.map(reservationMaster, ReservationMasterReadDTO.class);
-        if (Objects.nonNull(reservationMaster.getAccountTransaction())) {
-            readDTO.setAccountTransactionId(reservationMaster.getAccountTransaction().getId());
-            readDTO.setBookAmount(reservationMaster.getAccountTransaction().getAmount());
-            readDTO.setSource(reservationMaster.getAccountTransaction().getSource());
-        }
         if (Objects.nonNull(reservationMaster.getRoom())) {
             readDTO.setRoomCode(reservationMaster.getRoom().getCode());
             readDTO.setRoomId(reservationMaster.getRoom().getId());

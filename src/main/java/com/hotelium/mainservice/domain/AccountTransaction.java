@@ -1,5 +1,6 @@
 package com.hotelium.mainservice.domain;
 
+import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,11 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
@@ -37,6 +34,18 @@ public class AccountTransaction extends BaseEntity {
     private TransactionSource source;
     @Column(name = "description")
     private String description;
+    @JoinColumn(name = "res_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    private ReservationMaster reservationMaster;
+    @Column(name = "name_title")
+    private String nameTitle;
+    @Column(name = "legalId")
+    private String legalId;
+    @Column(name = "drawee")
+    @Enumerated(EnumType.STRING)
+    private Drawee drawee;
+    @Column(name = "drawee_id")
+    private String draweeId;
 
     public enum TransactionType {
         INCOME,
@@ -47,5 +56,10 @@ public class AccountTransaction extends BaseEntity {
         DEBIT,
         CASH,
         BANK
+    }
+
+    public enum Drawee {
+        PERSON,
+        LEGAL
     }
 }

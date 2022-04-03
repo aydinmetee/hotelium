@@ -13,8 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author Mete Aydin
@@ -71,5 +74,13 @@ public class CustomerServiceImpl implements CustomerService {
         final var customerDb = getById(id);
         customerDb.setCompany(company);
         return customerRepository.save(customerDb);
+    }
+
+    @Override
+    public Page<Customer> searchForAutoComplete(CustomerSearchCriteriaDTO filter) {
+        return customerRepository.getCustomersByNameContainsOrLastnameContainsAndOrgId(
+                Optional.ofNullable(filter.getName()).orElse(""),
+                Optional.ofNullable(filter.getLastname()).orElse(""),
+                SessionContext.getSessionData().getOrgId(), PageRequest.of(0, 1000));
     }
 }

@@ -1,6 +1,5 @@
 package com.hotelium.mainservice.dto.reservation;
 
-import com.hotelium.mainservice.domain.AccountTransaction;
 import com.hotelium.mainservice.domain.reservation.ReservationMaster;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,16 +16,14 @@ import java.util.Date;
 public class ReservationMasterReadDTO extends ReservationMasterWriteDTO {
     private String id;
     private ReservationMaster.ReservationStatus status;
-    private String accountTransactionId;
     private Date checkInDate;
     private Date checkOutDate;
     private String roomCode;
-    private BigDecimal bookAmount;
-    private AccountTransaction.TransactionSource source;
     private String orgId;
     private Date creDate;
     private String creUser;
     private Date updDate;
     private String updUser;
+    private Boolean isPayed;
 
 }

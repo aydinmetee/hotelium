@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @author Mete Aydin
  * @date 23.10.2021
@@ -49,6 +51,11 @@ public class ReservationDetailServiceViewImpl implements ReservationDetailServic
         readDto.setCustomerFullName(reservationDetail.getCustomer().getName() + " " + reservationDetail.getCustomer().getLastname());
         readDto.setCustomerLegalId(reservationDetail.getCustomer().getLegalId());
         readDto.setCustomerPhone(reservationDetail.getCustomer().getPhone());
+        if (Objects.nonNull(reservationDetail.getCustomer().getCompany())) {
+            readDto.setCompanyId(reservationDetail.getCustomer().getCompany().getId());
+            readDto.setCompanyLegalNo(reservationDetail.getCustomer().getCompany().getLegalNo());
+            readDto.setCompanyName(reservationDetail.getCustomer().getCompany().getNameTitle());
+        }
         return readDto;
     }
 }

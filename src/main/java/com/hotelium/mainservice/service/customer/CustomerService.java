@@ -22,4 +22,6 @@ public interface CustomerService {
     Page<Customer> search(CustomerSearchCriteriaDTO filter, Pageable pageable);
 
     Customer assignCompany(String id, String companyId);
+
+    Page<Customer> searchForAutoComplete(CustomerSearchCriteriaDTO filter);
 }

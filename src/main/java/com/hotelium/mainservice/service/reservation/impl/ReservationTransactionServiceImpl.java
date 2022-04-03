@@ -70,7 +70,8 @@ public class ReservationTransactionServiceImpl implements ReservationTransaction
         } else {
             period = 6L;
         }
-        return reservationTransactionRepository.findReservationTransactionsByReservationDateBetweenAndOrgId(DateUtil.startOfDay(new Date()),
+        return reservationTransactionRepository.findReservationTransactionsByReservationDateBetweenAndOrgId(
+                DateUtil.startOfDay(DateUtil.daysCalculator(new Date(),-1L)),
                 DateUtil.endOfDay(DateUtil.daysCalculator(new Date(), period)),
                 SessionContext.getSessionData().getOrgId());
     }
